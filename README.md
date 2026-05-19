@@ -1,0 +1,1 @@
+I made a portfolio webpage for my typology project on Chamorro, an endangered language of the Mariana Islands. Its roughly at its beginning stage and I'm planning on adding more and more features overtime. Currently Google is falsely flagging it as unsafe which is a bit annoying but I've appealed it and hopefully something comes out of it (fingers crossed). 
