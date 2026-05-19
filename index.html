@@ -1,0 +1,1728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chamorro — A Typology Portfolio · LELA20032</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* =========================================================
+   DESIGN TOKENS — "Deep Trench Archive"
+   ========================================================= */
+:root {
+    --pugua-bone: #F4F1EA;
+    --abyssal-ink: #0A1120;
+    --latte-basalt: #544E48;
+    --pottery-ochre: #D35230;
+    --salt-mist: #E2E9E7;
+
+    --bg: var(--pugua-bone);
+    --fg: var(--abyssal-ink);
+    --fg-muted: var(--latte-basalt);
+    --accent: var(--pottery-ochre);
+    --container: var(--salt-mist);
+    --axis: var(--latte-basalt);
+    --hairline: rgba(84, 78, 72, 0.18);
+
+    --font-display: "Cormorant Garamond", Georgia, serif;
+    --font-body: "Plus Jakarta Sans", system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", "IBM Plex Mono", monospace;
+
+    --section-gap: 14vh;
+    --content-width: min(720px, 100%);
+}
+
+[data-theme="dark"] {
+    --bg: #0A1120;
+    --fg: #F4F1EA;
+    --fg-muted: #9C928A;
+    --accent: #E66A47;
+    --container: #131B2F;
+    --axis: #2A3349;
+    --hairline: rgba(244, 241, 234, 0.12);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--fg);
+    line-height: 1.65;
+    font-size: 16px;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+a { color: inherit; text-decoration: none; }
+
+/* =========================================================
+   LAYOUT
+   ========================================================= */
+.archive { display: grid; grid-template-columns: 30% 1fr; min-height: 100vh; position: relative; }
+
+.left-deck {
+    position: sticky; top: 0; height: 100vh;
+    padding: 50px 44px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    border-right: 1px solid var(--hairline);
+    background: var(--bg); z-index: 10;
+}
+.identity { font-family: var(--font-display); }
+.identity .seal {
+    font-size: 10px; font-family: var(--font-body); font-weight: 600;
+    letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--fg-muted); margin-bottom: 14px;
+}
+.identity .title { font-size: 32px; font-weight: 500; line-height: 1.05; letter-spacing: -0.02em; }
+.identity .title em { font-style: italic; color: var(--accent); }
+.identity .subtitle {
+    font-size: 12px; font-family: var(--font-body);
+    color: var(--fg-muted); margin-top: 14px; line-height: 1.55;
+    letter-spacing: 0.02em;
+}
+
+.nav-list { list-style: none; margin-top: 38px; }
+.nav-list li { margin-bottom: 6px; }
+.nav-link {
+    display: flex; align-items: baseline; gap: 12px;
+    padding: 5px 0; color: var(--fg-muted);
+    font-family: var(--font-body); font-size: 12px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    font-weight: 500;
+    transition: color 0.35s ease, padding-left 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
+    position: relative;
+}
+.nav-link .num {
+    font-family: var(--font-mono); font-size: 10px;
+    font-weight: 600; color: var(--accent); opacity: 0.6;
+    transition: opacity 0.35s ease; min-width: 22px;
+}
+.nav-link.active { color: var(--fg); font-weight: 700; padding-left: 18px; }
+.nav-link.active .num { opacity: 1; }
+.nav-link.active::before {
+    content: ""; position: absolute; left: 0; top: 50%;
+    width: 10px; height: 1px; background: var(--accent);
+    transform: translateY(-50%);
+    animation: dash-extend 0.4s ease forwards;
+}
+@keyframes dash-extend { from { width: 0; } to { width: 10px; } }
+
+.coords {
+    font-family: var(--font-mono); font-size: 9.5px;
+    color: var(--fg-muted); line-height: 1.7; letter-spacing: 0.05em;
+}
+.coords .ping {
+    display: inline-block; width: 5px; height: 5px; border-radius: 50%;
+    background: var(--accent); margin-right: 8px;
+    animation: ping 2.4s ease-in-out infinite; vertical-align: middle;
+}
+@keyframes ping { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.3; transform: scale(0.7); } }
+.coords .label {
+    text-transform: uppercase; color: var(--fg-muted); opacity: 0.6;
+    margin-bottom: 4px; display: block; font-size: 9px; letter-spacing: 0.2em;
+}
+
+/* ---- Right deck ---- */
+.right-deck { padding: 80px 80px 120px 80px; max-width: 100%; }
+
+.section { max-width: var(--content-width); margin-bottom: var(--section-gap); scroll-margin-top: 50px; }
+
+.section-head {
+    margin-bottom: 50px; border-bottom: 1px solid var(--hairline); padding-bottom: 26px;
+}
+.section-head .num {
+    font-family: var(--font-display);
+    font-size: clamp(80px, 12vw, 156px);
+    font-weight: 500; line-height: 0.85; letter-spacing: -0.04em;
+    color: var(--fg); display: block;
+}
+.section-head .num .dot { color: var(--accent); }
+.section-head .name {
+    font-family: var(--font-body); font-size: 12px; font-weight: 700;
+    letter-spacing: 0.32em; text-transform: uppercase;
+    color: var(--fg-muted); margin-top: 8px;
+}
+.section-head .strap {
+    font-family: var(--font-display); font-style: italic;
+    font-size: 22px; font-weight: 400; color: var(--fg-muted);
+    margin-top: 22px; max-width: 580px; line-height: 1.35;
+}
+
+.section h3, .section .subsec {
+    font-family: var(--font-display);
+    font-size: 26px; font-weight: 500; letter-spacing: -0.01em;
+    margin: 44px 0 14px; color: var(--fg);
+}
+.section .subsec .ix {
+    color: var(--accent); font-family: var(--font-mono); font-size: 14px;
+    font-weight: 600; letter-spacing: 0.06em; margin-right: 10px;
+    vertical-align: 4px;
+}
+
+.section h4 {
+    font-family: var(--font-body); font-size: 11px; font-weight: 700;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--fg-muted); margin: 28px 0 10px;
+}
+
+.section p {
+    margin-bottom: 16px; color: var(--fg); font-size: 16px;
+}
+.section p + p { margin-top: -2px; }
+.section p .lede::first-letter {
+    font-family: var(--font-display); font-size: 56px;
+    float: left; line-height: 0.95; padding: 6px 10px 0 0;
+    color: var(--accent); font-weight: 600;
+}
+
+/* Inline citation */
+.cite {
+    font-family: var(--font-mono); font-size: 0.82em; color: var(--fg-muted);
+    white-space: nowrap; letter-spacing: 0.01em;
+}
+
+/* TL;DR callout */
+.tldr {
+    background: var(--container); padding: 14px 18px;
+    border-left: 3px solid var(--accent);
+    margin: 18px 0 26px; font-size: 14.5px;
+    border-radius: 0 4px 4px 0;
+    color: var(--fg);
+}
+.tldr .tag {
+    font-family: var(--font-mono); font-size: 9.5px; font-weight: 700;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--accent); display: block; margin-bottom: 4px;
+}
+
+/* Section in-page TOC */
+.minitoc {
+    list-style: none; padding: 0;
+    margin: 18px 0 30px;
+    display: flex; flex-wrap: wrap; gap: 6px 14px;
+    font-family: var(--font-mono); font-size: 11px;
+    color: var(--fg-muted); letter-spacing: 0.04em;
+    padding-top: 14px; border-top: 1px dashed var(--hairline);
+}
+.minitoc li::before {
+    content: "·"; color: var(--accent); margin-right: 6px;
+}
+.minitoc a:hover { color: var(--accent); }
+
+/* =========================================================
+   FRONT MATTER (title page)
+   ========================================================= */
+.frontmatter {
+    padding: 30px 0 80px;
+    margin-bottom: var(--section-gap);
+    border-bottom: 1px solid var(--hairline);
+    position: relative;
+}
+.fm-stamp {
+    font-family: var(--font-mono); font-size: 10px;
+    letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 18px;
+}
+.fm-university {
+    font-family: var(--font-display); font-size: 18px;
+    font-style: italic; color: var(--fg-muted); margin-bottom: 4px;
+}
+.fm-dept {
+    font-family: var(--font-body); font-size: 11px;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--fg-muted); margin-bottom: 36px;
+}
+.fm-title {
+    font-family: var(--font-display);
+    font-size: clamp(72px, 12vw, 132px);
+    font-weight: 500; line-height: 0.9; letter-spacing: -0.04em;
+    margin-bottom: 12px;
+}
+.fm-title em { font-style: italic; color: var(--accent); }
+.fm-sub {
+    font-family: var(--font-display); font-style: italic;
+    font-size: 22px; color: var(--fg-muted);
+    margin-bottom: 40px; max-width: 560px; line-height: 1.35;
+}
+.fm-meta {
+    display: grid; grid-template-columns: max-content 1fr;
+    gap: 8px 28px; font-family: var(--font-mono); font-size: 12px;
+    border-top: 1px solid var(--hairline); padding-top: 22px;
+    max-width: 540px;
+}
+.fm-meta dt {
+    color: var(--fg-muted); letter-spacing: 0.18em;
+    text-transform: uppercase; font-size: 10px; padding-top: 2px;
+}
+.fm-meta dd { color: var(--fg); }
+
+/* Mariana islands silhouette */
+.mariana {
+    position: absolute; top: 40px; right: 0;
+    width: 120px; height: auto; opacity: 0.18;
+    color: var(--accent);
+}
+
+/* =========================================================
+   ABBREVIATIONS GRID
+   ========================================================= */
+.abbrev-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 4px 18px;
+    margin: 18px 0 12px;
+}
+.abbrev-item {
+    display: flex; gap: 10px; align-items: baseline;
+    padding: 5px 0;
+    font-size: 13px;
+    border-bottom: 1px dotted var(--hairline);
+}
+.abbrev-item code {
+    font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+    color: var(--accent); min-width: 36px;
+    letter-spacing: 0.04em;
+}
+.abbrev-item span { color: var(--fg-muted); font-size: 12.5px; }
+
+/* =========================================================
+   TYPOLOGY FINGERPRINT
+   ========================================================= */
+.fingerprint {
+    background: var(--container);
+    padding: 22px 24px; margin: 30px 0;
+    border-radius: 4px;
+    border-top: 3px solid var(--accent);
+}
+.fingerprint .fp-head {
+    font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+    letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 14px;
+}
+.fingerprint dl {
+    display: grid; grid-template-columns: max-content 1fr;
+    gap: 8px 18px;
+}
+.fingerprint dt {
+    font-family: var(--font-body); font-size: 10.5px; font-weight: 700;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--fg-muted);
+}
+.fingerprint dd { font-size: 13px; font-family: var(--font-mono); color: var(--fg); }
+.chip {
+    display: inline-block; padding: 1px 8px;
+    border: 1px solid var(--hairline); border-radius: 999px;
+    font-family: var(--font-mono); font-size: 10.5px;
+    color: var(--fg); background: var(--bg);
+    margin-right: 4px; letter-spacing: 0.04em;
+}
+.chip.accent { background: var(--accent); color: white; border-color: var(--accent); }
+
+/* =========================================================
+   GLOSSED EXAMPLES
+   ========================================================= */
+.gloss {
+    background: var(--container); border-left: 3px solid var(--accent);
+    padding: 24px 28px 20px; margin: 26px 0;
+    position: relative; border-radius: 0 4px 4px 0;
+    transition: background 0.5s ease;
+}
+.gloss-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 14px;
+    font-family: var(--font-mono); font-size: 11px;
+    color: var(--fg-muted);
+    letter-spacing: 0.1em; text-transform: uppercase;
+}
+.gloss-num { font-weight: 600; }
+.gloss-num::before { content: "("; }
+.gloss-num::after  { content: ")"; }
+
+.copy-btn {
+    background: transparent; border: 1px solid var(--hairline);
+    color: var(--fg-muted); font-family: var(--font-mono);
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em;
+    padding: 4px 10px; border-radius: 2px; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 6px;
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+.copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+.copy-btn.copied {
+    color: var(--accent); border-color: var(--accent);
+    background: rgba(211, 82, 48, 0.08);
+}
+.copy-btn svg { width: 11px; height: 11px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+
+.interlinear {
+    display: grid; grid-auto-flow: column;
+    grid-template-rows: auto auto;
+    column-gap: 20px; row-gap: 6px;
+    overflow-x: auto; padding-bottom: 4px;
+}
+.interlinear .morph, .interlinear .gl {
+    font-family: var(--font-mono); font-size: 13px;
+    line-height: 1.4; white-space: nowrap;
+}
+.interlinear .morph {
+    color: var(--fg); font-weight: 500;
+    cursor: pointer; transition: color 0.25s ease;
+    padding: 1px 2px; border-bottom: 1px dotted transparent;
+}
+.interlinear .gl {
+    color: var(--fg-muted); font-size: 11px;
+    font-variant: small-caps; letter-spacing: 0.04em;
+    transition: color 0.25s ease, background 0.25s ease;
+    padding: 1px 2px; border-radius: 2px;
+}
+.interlinear .morph:hover {
+    color: var(--accent); border-bottom-color: var(--accent);
+}
+.interlinear .gl.synced {
+    color: var(--accent); background: rgba(211, 82, 48, 0.10);
+}
+
+.gloss .free {
+    margin-top: 16px; font-family: var(--font-display);
+    font-style: italic; font-size: 17.5px; color: var(--fg);
+    line-height: 1.4; padding-top: 12px;
+    border-top: 1px solid var(--hairline);
+}
+.gloss .free::before { content: "‘"; color: var(--accent); font-style: normal; }
+.gloss .free::after  { content: "’"; color: var(--accent); font-style: normal; }
+
+.gloss-source {
+    font-family: var(--font-mono); font-size: 10px;
+    color: var(--fg-muted); margin-top: 10px;
+    letter-spacing: 0.05em; opacity: 0.7;
+}
+
+/* Word-order template lines */
+.template {
+    font-family: var(--font-mono); font-size: 12.5px;
+    background: var(--container); padding: 14px 18px;
+    border-left: 3px solid var(--accent);
+    margin: 18px 0; line-height: 1.7;
+    border-radius: 0 4px 4px 0;
+    overflow-x: auto;
+}
+.template .tag {
+    color: var(--accent); font-weight: 600; margin-right: 6px;
+}
+
+/* =========================================================
+   TABLES
+   ========================================================= */
+.data-table { width: 100%; border-collapse: collapse; margin: 26px 0; font-size: 14px; }
+.data-table th {
+    text-align: left; font-family: var(--font-body); font-size: 10px;
+    font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--fg-muted); padding: 11px 14px 11px 0;
+    border-bottom: 2px solid var(--fg);
+}
+.data-table td {
+    padding: 11px 14px 11px 0;
+    border-bottom: 1px solid var(--hairline);
+    font-family: var(--font-mono); font-size: 12.5px;
+}
+.data-table td:first-child { color: var(--accent); font-weight: 600; }
+.data-table tr:last-child td { border-bottom: none; }
+
+/* =========================================================
+   ACCORDION
+   ========================================================= */
+.tree { margin: 22px 0; border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
+.tree-toggle {
+    width: 100%; background: none; border: none; color: var(--fg);
+    text-align: left; padding: 14px 0; cursor: pointer;
+    font-family: var(--font-body); font-size: 11.5px; font-weight: 600;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    display: flex; justify-content: space-between; align-items: center;
+}
+.tree-toggle .chev { transition: transform 0.3s ease; color: var(--accent); font-family: var(--font-mono); }
+.tree-toggle[aria-expanded="true"] .chev { transform: rotate(45deg); }
+.tree-body { max-height: 0; overflow: hidden; transition: max-height 0.45s cubic-bezier(0.2, 0.7, 0.2, 1); }
+.tree-body-inner {
+    padding: 0 0 22px 0;
+    font-family: var(--font-mono); font-size: 12.5px;
+    color: var(--fg-muted); white-space: pre;
+    line-height: 1.6; overflow-x: auto;
+}
+
+/* =========================================================
+   FOOTNOTES
+   ========================================================= */
+.fn {
+    color: var(--accent); font-family: var(--font-mono);
+    font-size: 0.7em; vertical-align: super; cursor: help;
+    position: relative; font-weight: 600;
+}
+.fn::before { content: "[" attr(data-n) "]"; }
+.fn:hover .fn-body, .fn:focus .fn-body {
+    opacity: 1; visibility: visible; transform: translate(-50%, -8px);
+}
+.fn-body {
+    position: absolute; bottom: 100%; left: 50%;
+    transform: translate(-50%, 0);
+    background: var(--fg); color: var(--bg);
+    padding: 10px 14px; border-radius: 3px;
+    font-family: var(--font-body); font-size: 12.5px;
+    line-height: 1.45; font-weight: 400; letter-spacing: normal;
+    text-transform: none; vertical-align: baseline;
+    width: 250px; opacity: 0; visibility: hidden;
+    transition: all 0.25s ease; z-index: 50;
+    pointer-events: none;
+    box-shadow: 0 8px 24px rgba(10, 17, 32, 0.18);
+}
+
+/* =========================================================
+   LATTE AXIS
+   ========================================================= */
+.latte-axis {
+    position: fixed; top: 0; left: 30%;
+    height: 100vh; width: 1px;
+    background: var(--axis); opacity: 0.55;
+    z-index: 11; pointer-events: none;
+    transform: translateX(-0.5px);
+}
+.latte-stone {
+    position: absolute; left: 50%; top: 0;
+    transform: translate(-50%, -50%);
+    width: 22px; height: 30px;
+    transition: top 0.08s linear;
+    color: var(--accent);
+    filter: drop-shadow(0 1px 2px rgba(10, 17, 32, 0.25));
+}
+
+/* =========================================================
+   REFERENCES
+   ========================================================= */
+.refs ol { list-style: none; counter-reset: ref; padding-left: 0; }
+.refs li {
+    counter-increment: ref;
+    padding: 14px 0 14px 50px;
+    border-bottom: 1px solid var(--hairline);
+    position: relative; font-size: 13.5px; line-height: 1.55;
+    color: var(--fg);
+}
+.refs li::before {
+    content: counter(ref, decimal-leading-zero);
+    position: absolute; left: 0; top: 16px;
+    font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+    color: var(--accent); letter-spacing: 0.05em;
+}
+.refs em { font-family: var(--font-display); font-style: italic; font-size: 1.05em; }
+
+/* =========================================================
+   TOPBAR
+   ========================================================= */
+.topbar { position: fixed; top: 24px; right: 32px; z-index: 50; display: flex; gap: 10px; }
+.icon-btn {
+    background: var(--bg); border: 1px solid var(--hairline); color: var(--fg);
+    width: 38px; height: 38px; border-radius: 50%; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.25s, color 0.25s, transform 0.25s;
+}
+.icon-btn:hover { border-color: var(--accent); color: var(--accent); }
+.icon-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; }
+.menu-btn { display: none; }
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media (max-width: 980px) {
+    .archive { grid-template-columns: 1fr; }
+    .left-deck {
+        position: fixed; top: 0; left: 0; width: 100%; height: auto;
+        padding: 20px 28px;
+        flex-direction: row; justify-content: space-between; align-items: center;
+        border-right: none; border-bottom: 1px solid var(--hairline);
+    }
+    .left-deck.open {
+        height: 100vh; flex-direction: column; justify-content: flex-start;
+        align-items: stretch; padding-top: 70px; overflow-y: auto;
+    }
+    .left-deck:not(.open) .nav-list,
+    .left-deck:not(.open) .coords,
+    .left-deck:not(.open) .identity .subtitle { display: none; }
+    .left-deck.open .nav-list { margin-top: 30px; }
+    .left-deck.open .coords { margin-top: 30px; }
+    .identity .title { font-size: 22px; }
+    .right-deck { padding: 90px 24px 80px; }
+    .latte-axis { display: none; }
+    .menu-btn { display: flex; }
+    .topbar { top: 16px; right: 16px; }
+    .section-head .num { font-size: clamp(64px, 18vw, 110px); }
+    .mariana { display: none; }
+}
+@media (max-width: 560px) {
+    .section h3, .section .subsec { font-size: 21px; }
+    .gloss { padding: 18px 16px; }
+    .interlinear .morph, .interlinear .gl { font-size: 11.5px; }
+    .fm-meta { grid-template-columns: 1fr; }
+}
+@media print {
+    .left-deck, .latte-axis, .topbar { display: none; }
+    .right-deck { padding: 0; }
+}
+</style>
+</head>
+
+<body data-theme="light">
+
+<!-- TOPBAR -->
+<div class="topbar">
+    <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open navigation">
+        <svg viewBox="0 0 24 24"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+    </button>
+    <button class="icon-btn" id="themeBtn" aria-label="Toggle theme">
+        <svg id="themeIcon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+</div>
+
+<!-- LATTE AXIS -->
+<div class="latte-axis" aria-hidden="true">
+    <svg class="latte-stone" id="latteStone" viewBox="0 0 24 32">
+        <path d="M 4 14 Q 12 2 20 14 L 20 16 L 4 16 Z" fill="currentColor"/>
+        <path d="M 7 16 L 17 16 L 19 30 L 5 30 Z" fill="currentColor" opacity="0.85"/>
+    </svg>
+</div>
+
+<main class="archive">
+
+    <!-- ─── LEFT DECK ─────────────────────────────────────────── -->
+    <aside class="left-deck" id="leftDeck">
+        <div>
+            <div class="identity">
+                <div class="seal">Manchester · LELA20032</div>
+                <div class="title">Chamorro<br><em>fino' håya</em></div>
+                <div class="subtitle">A typology portfolio.<br>2025–26, Semester 2.</div>
+            </div>
+
+            <nav>
+                <ul class="nav-list" id="navList">
+                    <li><a href="#abbrev"     class="nav-link"><span class="num">⌧</span><span class="label">Abbreviations</span></a></li>
+                    <li><a href="#profile"    class="nav-link"><span class="num">01</span><span class="label">Language Profile</span></a></li>
+                    <li><a href="#word-order" class="nav-link"><span class="num">02</span><span class="label">Word Order</span></a></li>
+                    <li><a href="#alignment"  class="nav-link"><span class="num">03</span><span class="label">Alignment</span></a></li>
+                    <li><a href="#comparison" class="nav-link"><span class="num">04</span><span class="label">Comparison</span></a></li>
+                    <li><a href="#possession" class="nav-link"><span class="num">05</span><span class="label">Possession</span></a></li>
+                    <li><a href="#summary"    class="nav-link"><span class="num">06</span><span class="label">Summary</span></a></li>
+                    <li><a href="#refs"       class="nav-link"><span class="num">⁂</span><span class="label">References</span></a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="coords">
+            <span class="label">Logged at</span>
+            <span class="ping"></span>HAGÅTÑA, GUAM<br>
+            13°26′<span id="coordSec">53.4</span>″ N<br>
+            144°45′<span id="coordSec2">37.6</span>″ E<br>
+            <span class="label" style="margin-top:10px;">Mariana Trench</span>
+            10 994 m · 36 069 ft
+        </div>
+    </aside>
+
+    <!-- ─── RIGHT DECK ────────────────────────────────────────── -->
+    <div class="right-deck">
+
+        <!-- ============ FRONT MATTER ============ -->
+        <section class="frontmatter">
+            <svg class="mariana" viewBox="0 0 120 220" aria-hidden="true">
+                <ellipse cx="70" cy="20"  rx="6" ry="4"  fill="currentColor"/>
+                <ellipse cx="64" cy="40"  rx="8" ry="5"  fill="currentColor"/>
+                <ellipse cx="58" cy="62"  rx="6" ry="4"  fill="currentColor"/>
+                <ellipse cx="52" cy="82"  rx="5" ry="3"  fill="currentColor"/>
+                <ellipse cx="46" cy="100" rx="7" ry="4"  fill="currentColor"/>
+                <ellipse cx="40" cy="122" rx="6" ry="4"  fill="currentColor"/>
+                <ellipse cx="38" cy="144" rx="9" ry="6"  fill="currentColor"/>
+                <ellipse cx="44" cy="170" rx="12" ry="9" fill="currentColor"/>
+                <ellipse cx="56" cy="200" rx="8" ry="5"  fill="currentColor"/>
+                <path d="M 100 10 Q 80 100 95 215" fill="none" stroke="currentColor" stroke-width="0.6" stroke-dasharray="2 3"/>
+            </svg>
+
+            <div class="fm-stamp">⌧ Field Log No. 7 · Submitted 15 May 2026</div>
+            <div class="fm-university">The University of Manchester</div>
+            <div class="fm-dept">Department of Linguistics &amp; English Language</div>
+
+            <h1 class="fm-title">Chamorro,<br><em>a portfolio.</em></h1>
+            <p class="fm-sub">A descriptive and typological survey of an Austronesian language of the Mariana Islands — word order, alignment, comparison, possession.</p>
+
+            <dl class="fm-meta">
+                <dt>Module</dt>      <dd>LELA20032 · Typology</dd>
+                <dt>Term</dt>        <dd>2025–26, Semester 2</dd>
+                <dt>Contributors</dt><dd>14152443 · 14152441 · 11366876</dd>
+                <dt>Date</dt>        <dd>Friday, 15 May 2026</dd>
+                <dt>Glottocode</dt>  <dd>cham1312 · ISO 639-3: cha</dd>
+            </dl>
+        </section>
+
+
+        <!-- ============ ABBREVIATIONS ============ -->
+        <section class="section" id="abbrev">
+            <header class="section-head">
+                <span class="num">⌧</span>
+                <div class="name">Abbreviations Used in Glosses</div>
+                <p class="strap">A reference list for the morphological labels used throughout the portfolio. Follows Leipzig-style conventions, with one or two Chamorro-specific cover terms.</p>
+            </header>
+
+            <div class="abbrev-grid">
+                <div class="abbrev-item"><code>1</code><span>first person</span></div>
+                <div class="abbrev-item"><code>2</code><span>second person</span></div>
+                <div class="abbrev-item"><code>3</code><span>third person</span></div>
+                <div class="abbrev-item"><code>SG</code><span>singular</span></div>
+                <div class="abbrev-item"><code>PL</code><span>plural</span></div>
+                <div class="abbrev-item"><code>DU</code><span>dual</span></div>
+                <div class="abbrev-item"><code>EX</code><span>exclusive</span></div>
+                <div class="abbrev-item"><code>IN</code><span>inclusive</span></div>
+                <div class="abbrev-item"><code>ABS</code><span>absolutive</span></div>
+                <div class="abbrev-item"><code>ERG</code><span>ergative</span></div>
+                <div class="abbrev-item"><code>NOM</code><span>nominative</span></div>
+                <div class="abbrev-item"><code>ACC</code><span>accusative</span></div>
+                <div class="abbrev-item"><code>AGR</code><span>agreement (cover)</span></div>
+                <div class="abbrev-item"><code>ART</code><span>article</span></div>
+                <div class="abbrev-item"><code>UNM</code><span>unmarked case</span></div>
+                <div class="abbrev-item"><code>OBL</code><span>oblique</span></div>
+                <div class="abbrev-item"><code>LOC</code><span>local case</span></div>
+                <div class="abbrev-item"><code>L</code><span>linker</span></div>
+                <div class="abbrev-item"><code>COMP</code><span>complementiser</span></div>
+                <div class="abbrev-item"><code>EMP</code><span>emphatic</span></div>
+                <div class="abbrev-item"><code>REAL</code><span>realis</span></div>
+                <div class="abbrev-item"><code>IRR</code><span>irrealis</span></div>
+                <div class="abbrev-item"><code>PROG</code><span>progressive</span></div>
+                <div class="abbrev-item"><code>PASS</code><span>passive</span></div>
+                <div class="abbrev-item"><code>ANTIP</code><span>antipassive</span></div>
+                <div class="abbrev-item"><code>AP</code><span>antipassive (src.)</span></div>
+                <div class="abbrev-item"><code>CMPR</code><span>comparative</span></div>
+                <div class="abbrev-item"><code>POSS</code><span>possessive</span></div>
+                <div class="abbrev-item"><code>WH</code><span>wh-agreement</span></div>
+                <div class="abbrev-item"><code>FUT</code><span>future</span></div>
+                <div class="abbrev-item"><code>PRT</code><span>particle</span></div>
+                <div class="abbrev-item"><code>DIR</code><span>directional</span></div>
+                <div class="abbrev-item"><code>REC</code><span>reciprocal</span></div>
+                <div class="abbrev-item"><code>TAM</code><span>tense–aspect–mood</span></div>
+            </div>
+        </section>
+
+
+        <!-- ============ 01 PROFILE ============ -->
+        <section class="section" id="profile">
+            <header class="section-head">
+                <span class="num">01<span class="dot">.</span></span>
+                <div class="name">Language Profile</div>
+                <p class="strap">An endangered, heavily Hispanicised Malayo-Polynesian language whose precise position within Austronesian remains unresolved.</p>
+            </header>
+
+            <div class="tldr">
+                <span class="tag">TL;DR</span>
+                Chamorro is spoken in Guam and the Northern Mariana Islands, with around 58 000 speakers across an island and diaspora population. Four centuries of colonial contact have heavily Hispanicised its lexicon and parts of its functional morphology, but the Austronesian morphosyntactic core remains intact.
+            </div>
+
+            <ul class="minitoc">
+                <li><a href="#prof-classification">Classification</a></li>
+                <li><a href="#prof-speakers">Speakers &amp; dialects</a></li>
+                <li><a href="#prof-contact">Contact history</a></li>
+                <li><a href="#prof-endang">Endangerment</a></li>
+                <li><a href="#prof-docs">Documentary record</a></li>
+            </ul>
+
+            <p><span class="lede">Chamorro</span> is an Austronesian language spoken natively on the island of Guam and in the Commonwealth of the Northern Mariana Islands (CNMI), with diaspora communities in Hawai'i and the continental United States, concentrated in California and Washington state. Its ISO 639-3 code is <em>cha</em> and its Glottocode is <em>cham1312</em> <span class="cite">(Hammarström et al. 2024)</span>. The language is written in the Latin script, with two slightly varying orthographies in use in Guam and the CNMI <span class="cite">(Chung 2020: 671–675)</span>. We follow the spelling conventions of Chung (2020) and Topping (1973) throughout.</p>
+
+            <h3 id="prof-classification"><span class="subsec"><span class="ix">1.1</span>Classification</span></h3>
+
+            <p>The internal classification of Chamorro within Austronesian is contested. It is consistently treated as Malayo-Polynesian, but its position within that branch is unresolved. Costenoble (1940) argued for Philippine affinities on lexical and morphological grounds, and a similar view is defended in different forms by Starosta &amp; Pagotto (1991) and Zobel (2002). Reid (2002: 91–92) reanalyses much of this evidence as the result of contact rather than shared inheritance, treating Chamorro as a first-order branch of Proto Extra-Formosan that separated very early from the rest of the family. Blust (2000) likewise treats Chamorro as standing outside the main Oceanic lineage. For the purposes of this portfolio we follow Chung (2020: 3), who treats Chamorro's subgrouping within Western Malayo-Polynesian as unresolved and not closely related to the Micronesian or Polynesian languages of its geographical neighbours.</p>
+
+            <h3 id="prof-speakers"><span class="subsec"><span class="ix">1.2</span>Speakers and dialects</span></h3>
+
+            <p>Ethnologue (2024) estimates approximately 58 000 speakers in total: 29 000 in Guam (against an ethnic Chamorro population of around 62 700), 12 000 in the CNMI, and a further 17 000 in the US-mainland diaspora. Two dialects are recognised — Chamorro proper (across Guam and most of the CNMI) and Rotanese Chamorro (spoken on the island of Rota) <span class="cite">(Ethnologue 2024; Chung 2020: 5–7)</span>.</p>
+
+            <h3 id="prof-contact"><span class="subsec"><span class="ix">1.3</span>Contact history</span></h3>
+
+            <p>Chamorro has been a contact language for much of its documented history. Solenberger (1962) describes the mid-twentieth-century Marianas as a layered multilingual ecology in which Chamorro coexisted with Spanish, German, Japanese and English, each associated with successive colonial periods: Spanish administration from the late seventeenth century until 1898; American annexation of Guam in 1898; German rule in the CNMI from 1899 to 1914; and Japanese rule in the CNMI from 1914 to 1944. Stolz &amp; Stolz (2001) describe Chamorro as one of the most heavily Hispanicised languages of the Pacific, with extensive lexical borrowing and the incorporation of some functional morphology — including the comparative particle <em>mås</em> and the standard marker <em>kinu</em> discussed in §4. The Austronesian morphosyntactic base of the language has nonetheless remained largely intact.</p>
+
+            <h3 id="prof-endang"><span class="subsec"><span class="ix">1.4</span>Endangerment</span></h3>
+
+            <p>Chamorro is endangered, with the severity of the situation varying by territory. Ethnologue (2024) classifies the language as EGIDS level 2 (Provincial) in Guam, where it has had statutory recognition since 1974; level 3 (Wider Communication) in the CNMI, where it is co-official with English and Carolinian under the 1978 constitution; and level 6b (Threatened) in the US-mainland diaspora. Glottolog <span class="cite">(Campbell et al. 2022)</span> assigns the language an agglomerated endangerment status of 'shifting'. The principal driver of decline is disrupted intergenerational transmission. Chung (2020: 2) describes an abrupt shift from Chamorro to English among children in Saipan in the 1980s, and observes that by 2010 the situation in the CNMI had come to resemble Guam's a decade earlier, with fluent speakers concentrated among older generations. Solenberger's (1962: 63) mid-century prediction that Chamorro would survive as the language of mother–child transmission across the Marianas has therefore been only partially borne out.</p>
+
+            <h3 id="prof-docs"><span class="subsec"><span class="ix">1.5</span>Documentary record</span></h3>
+
+            <p>The documentary record for Chamorro is comparatively rich. The principal reference grammar is Chung's (2020) 728-page open-access <em>Chamorro Grammar</em>, which serves as the primary source for this portfolio and supersedes the earlier reference grammar by Topping (1973). Topping (1973) remains useful for its discussion of older forms and is accompanied by a Chamorro–English dictionary (Topping, Ogo &amp; Dungca 1975). Safford's (1903–1905) five-part article <em>The Chamorro Language of Guam</em> is the earliest substantial descriptive source. Cooreman's (1987) monograph on transitivity and ergativity in Chamorro narratives is the standard reference for the alignment-related material discussed in §3. Crosslinguistic data are drawn from <em>WALS</em> <span class="cite">(Dryer &amp; Haspelmath 2013)</span> under language code <em>cha</em>. Chamorro has been taught as a compulsory subject in primary schools in Guam since Guam Public Law 31–45 in 2011, and as a school subject at primary and secondary level in the CNMI, with active language-development programmes in both jurisdictions.</p>
+
+            <div class="fingerprint">
+                <div class="fp-head">⌧ Typology Fingerprint</div>
+                <dl>
+                    <dt>Family</dt><dd>Austronesian › Malayo-Polynesian (subgrouping unresolved)</dd>
+                    <dt>Speakers</dt><dd>≈ 58 000 · Guam, CNMI, US diaspora</dd>
+                    <dt>Word order</dt><dd><span class="chip accent">VSO</span><span class="chip">VOS</span> flexible · predicate-initial · head-initial</dd>
+                    <dt>Alignment</dt><dd><span class="chip">neutral case</span><span class="chip accent">ERG/ABS realis</span><span class="chip">NOM/ACC irrealis</span></dd>
+                    <dt>Comparison</dt><dd><span class="chip">explicit</span> suffix <em>-ña</em> · particle <em>mås</em> · standard <em>kinu/ki</em></dd>
+                    <dt>Possession</dt><dd><span class="chip">head-marking</span> suffix paradigm + linker <em>-n</em></dd>
+                    <dt>Contact</dt><dd>Heavily Hispanicised; Sp., Ger., Jp., Eng. layers</dd>
+                </dl>
+            </div>
+        </section>
+
+
+        <!-- ============ 02 WORD ORDER ============ -->
+        <section class="section" id="word-order">
+            <header class="section-head">
+                <span class="num">02<span class="dot">.</span></span>
+                <div class="name">Word Order</div>
+                <p class="strap">A flexible VSO language that becomes rigid under ambiguity and is consistently head-initial across every phrasal category.</p>
+            </header>
+
+            <div class="tldr">
+                <span class="tag">TL;DR</span>
+                Chamorro prefers VSO but tolerates VOS when context disambiguates. The verb, the noun, and the preposition all precede their dependents — a textbook head-initial profile, conforming to Greenberg's Universal #3.
+            </div>
+
+            <ul class="minitoc">
+                <li><a href="#wo-vso">Basic VSO</a></li>
+                <li><a href="#wo-ambig">Ambiguity &amp; VOS</a></li>
+                <li><a href="#wo-head">Head-directionality</a></li>
+                <li><a href="#wo-pred">Predicate-initial</a></li>
+                <li><a href="#wo-ni">Head-initial NPs</a></li>
+                <li><a href="#wo-disc">Discussion</a></li>
+            </ul>
+
+            <p id="wo-vso"><span class="lede">Research</span> on Chamorro word order has been dominated by the work of Sandra Chung, whose studies provide detailed analyses of the language's syntax and syntax–semantics interface <span class="cite">(Chung 1998, 2020)</span>. Chamorro is classified as a verb-initial language with a 'flexible VSO' structure <span class="cite">(Chung 1998: 23)</span>: while it strongly prefers VSO, certain sentence structures heavily imply that VOS is permissible in some instances.</p>
+
+            <p>Cross-linguistically, VSO is the third most common word order, occurring in 9.2% of languages surveyed by Song (2018: 239, Table 10.3). In the same study — a sample of 402 languages drawn from 1 063 — 44.78% were SOV and 41.79% SVO, illustrating the comparative rarity of verb-initial orders.</p>
+
+            <p>No quantitative data on the frequency of different word orders within Chamorro itself appears to exist, so the language is categorised as VSO on descriptive grounds. This VSO word order is most commonly seen in transitive clauses <span class="cite">(Chung 1998: 21)</span>, as in (1).</p>
+
+            <div class="gloss" data-copy="Ha patcha si nanå-hu i sanhilu' i hetnu'.">
+                <div class="gloss-head">
+                    <span class="gloss-num">1</span>
+                    <button class="copy-btn" data-copy-btn>
+                        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="interlinear">
+                    <div class="morph" data-pair="w1a">Ha</div><div class="gl" data-pair="w1a">AGR</div>
+                    <div class="morph" data-pair="w1b">patcha</div><div class="gl" data-pair="w1b">touch</div>
+                    <div class="morph" data-pair="w1c">si</div><div class="gl" data-pair="w1c">UNM</div>
+                    <div class="morph" data-pair="w1d">nanå-hu</div><div class="gl" data-pair="w1d">mother-AGR</div>
+                    <div class="morph" data-pair="w1e">i</div><div class="gl" data-pair="w1e">ART</div>
+                    <div class="morph" data-pair="w1f">sanhilu'</div><div class="gl" data-pair="w1f">DIR.above.L</div>
+                    <div class="morph" data-pair="w1g">i</div><div class="gl" data-pair="w1g">ART</div>
+                    <div class="morph" data-pair="w1h">hetnu'</div><div class="gl" data-pair="w1h">oven</div>
+                </div>
+                <div class="free">My mother touched the top of the incubator.</div>
+                <div class="gloss-source">— Chung (2020: 45, ex. 5a)</div>
+            </div>
+
+            <p>The same VSO order is also displayed in intransitive clauses, as in (2).</p>
+
+            <div class="gloss" data-copy="Ma'a'ñåo si Juan ni ga'lågu.">
+                <div class="gloss-head">
+                    <span class="gloss-num">2</span>
+                    <button class="copy-btn" data-copy-btn>
+                        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="interlinear">
+                    <div class="morph" data-pair="w2a">Ma'a'ñåo</div><div class="gl" data-pair="w2a">AGR.afraid</div>
+                    <div class="morph" data-pair="w2b">si</div><div class="gl" data-pair="w2b">UNM</div>
+                    <div class="morph" data-pair="w2c">Juan</div><div class="gl" data-pair="w2c">Juan</div>
+                    <div class="morph" data-pair="w2d">ni</div><div class="gl" data-pair="w2d">OBL</div>
+                    <div class="morph" data-pair="w2e">ga'lågu</div><div class="gl" data-pair="w2e">dog</div>
+                </div>
+                <div class="free">Juan is afraid of the dog.</div>
+                <div class="gloss-source">— Chung (2020: 61, ex. 51b)</div>
+            </div>
+
+            <h3 id="wo-ambig"><span class="subsec"><span class="ix">2.1</span>Ambiguity and VOS</span></h3>
+
+            <p>Where the morphosyntax of a sentence is potentially ambiguous, Chamorro shows a strong preference for VSO. Chung (2020: 63) observes that in transitive clauses where it is unclear which noun phrase is the subject, speakers report that 'the subject must precede the direct object', forcing a VSO reading as in (3).</p>
+
+            <div class="gloss" data-copy="Ha apåpasi si Carmen i lalåhi singku pesus.">
+                <div class="gloss-head">
+                    <span class="gloss-num">3</span>
+                    <button class="copy-btn" data-copy-btn>
+                        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="interlinear">
+                    <div class="morph" data-pair="w3a">Ha</div><div class="gl" data-pair="w3a">AGR</div>
+                    <div class="morph" data-pair="w3b">apåpasi</div><div class="gl" data-pair="w3b">pay.PROG</div>
+                    <div class="morph" data-pair="w3c">si</div><div class="gl" data-pair="w3c">UNM</div>
+                    <div class="morph" data-pair="w3d">Carmen</div><div class="gl" data-pair="w3d">Carmen</div>
+                    <div class="morph" data-pair="w3e">i</div><div class="gl" data-pair="w3e">ART</div>
+                    <div class="morph" data-pair="w3f">lalåhi</div><div class="gl" data-pair="w3f">PL.man</div>
+                    <div class="morph" data-pair="w3g">singku</div><div class="gl" data-pair="w3g">five</div>
+                    <div class="morph" data-pair="w3h">pesus</div><div class="gl" data-pair="w3h">dollars</div>
+                </div>
+                <div class="free">Carmen is paying the men five dollars.</div>
+                <div class="gloss-source">— Chung (2020: 63, ex. 56a)</div>
+            </div>
+
+            <p>VSO is, however, not an absolute requirement: the same proposition can be expressed with VOS when ambiguity is low, hence the 'flexible VSO' analysis. Example (4) shows that flexibility.</p>
+
+            <div class="gloss" data-copy="Ha apåpasi i lalåhi singku pesus si Carmen.">
+                <div class="gloss-head">
+                    <span class="gloss-num">4</span>
+                    <button class="copy-btn" data-copy-btn>
+                        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="interlinear">
+                    <div class="morph" data-pair="w4a">Ha</div><div class="gl" data-pair="w4a">AGR</div>
+                    <div class="morph" data-pair="w4b">apåpasi</div><div class="gl" data-pair="w4b">pay.PROG</div>
+                    <div class="morph" data-pair="w4c">i</div><div class="gl" data-pair="w4c">ART</div>
+                    <div class="morph" data-pair="w4d">lalåhi</div><div class="gl" data-pair="w4d">PL.man</div>
+                    <div class="morph" data-pair="w4e">singku</div><div class="gl" data-pair="w4e">five</div>
+                    <div class="morph" data-pair="w4f">pesus</div><div class="gl" data-pair="w4f">dollars</div>
+                    <div class="morph" data-pair="w4g">si</div><div class="gl" data-pair="w4g">UNM</div>
+                    <div class="morph" data-pair="w4h">Carmen</div><div class="gl" data-pair="w4h">Carmen</div>
+                </div>
+                <div class="free">Carmen is paying the men five dollars.</div>
+                <div class="gloss-source">— Chung (2020: 63, ex. 56b)</div>
+            </div>
+
+            <p>Across the wider set of post-verbal orderings, VSO is preferred where subject identity is potentially ambiguous, and VOS becomes acceptable where the subject is identifiable from other cues. This distribution supports treating VSO as the unmarked order.</p>
+
+            <h3 id="wo-head"><span class="subsec"><span class="ix">2.2</span>Head-directionality</span></h3>
+
+            <p>The Head-Directionality Parameter states that the head of a phrase must either precede or follow its complement. Chung (2020: 169) classifies Chamorro as both head-initial and predicate-initial: heads and predicates consistently precede their arguments.</p>
+
+            <h3 id="wo-pred"><span class="subsec"><span class="ix">2.3</span>Predicate-initiality</span></h3>
+
+            <p>Predicate-initial behaviour is visible throughout examples (1)–(4) where the predicate is a verb. When the predicate is a noun or preposition, it likewise precedes its arguments in the order Predicate-Phrase&nbsp;Subject <span class="cite">(Chung 2020: 64)</span>. Example (5) below is a predicate prepositional phrase.</p>
+
+            <div class="gloss" data-copy="Disdi i apuya' para hulu' påttin i matlina.">
+                <div class="gloss-head">
+                    <span class="gloss-num">5</span>
+                    <button class="copy-btn" data-copy-btn>
+                        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="interlinear">
+                    <div class="morph" data-pair="w5a">Disdi</div><div class="gl" data-pair="w5a">from</div>
+                    <div class="morph" data-pair="w5b">i</div><div class="gl" data-pair="w5b">ART</div>
+                    <div class="morph" data-pair="w5c">apuya'</div><div class="gl" data-pair="w5c">navel</div>
+                    <div class="morph" data-pair="w5d">para</div><div class="gl" data-pair="w5d">to</div>
+                    <div class="morph" data-pair="w5e">hulu'</div><div class="gl" data-pair="w5e">above</div>
+                    <div class="morph" data-pair="w5f">påttin</div><div class="gl" data-pair="w5f">portion.L</div>
+                    <div class="morph" data-pair="w5g">i</div><div class="gl" data-pair="w5g">ART</div>
+                    <div class="morph" data-pair="w5h">matlina</div><div class="gl" data-pair="w5h">godmother</div>
+                </div>
+                <div class="free">The godmother's portion is from the navel up.</div>
+                <div class="gloss-source">— Chung (2020: 65, ex. 60a)</div>
+            </div>
+
+            <p>Predicate-initial behaviour also extends to the negative <em>ti</em> 'not', which precedes the TAM and the predicate. Taken together, the word order of Chamorro clauses can be summarised by the templates below.</p>
+
+            <div class="template">
+                <div><span class="tag">(6) verbal / adjectival clauses</span> Negative — TAM — Predicate — Subject — Object — Obliques</div>
+                <div><span class="tag">(7) nominal / prepositional clauses</span> Negative — TAM — Predicate-Phrase — Subject</div>
+            </div>
+
+            <h3 id="wo-ni"><span class="subsec"><span class="ix">2.4</span>Head-initiality inside the noun phrase</span></h3>
+
+            <p>Within the noun phrase, prepositions occur before the determiner and the object NP, and modifiers follow the head noun. Example (8) is a minimal head-initial PP; the schema in (9) gives the noun-phrase template.</p>
+
+            <div class="gloss" data-copy="inkuenta i familia">
+                <div class="gloss-head">
+                    <span class="gloss-num">8</span>
+                    <button class="copy-btn" data-copy-btn>
+                        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="interlinear">
+                    <div class="morph" data-pair="w8a">inkuenta</div><div class="gl" data-pair="w8a">on.behalf</div>
+                    <div class="morph" data-pair="w8b">i</div><div class="gl" data-pair="w8b">ART</div>
+                    <div class="morph" data-pair="w8c">familia</div><div class="gl" data-pair="w8c">family</div>
+                </div>
+                <div class="free">on behalf of the family</div>
+                <div class="gloss-source">— Chung (2020: 99, ex. 29a)</div>
+            </div>
+
+            <div class="template">
+                <span class="tag">(9) NP template</span> Determiner — Noun — Possessor — Obliques — Adjuncts
+            </div>
+
+            <h3 id="wo-disc"><span class="subsec"><span class="ix">2.5</span>Discussion</span></h3>
+
+            <p>Linking back to Greenberg's (1963) typological universals, Chamorro conforms to Universal #3: 'Languages with dominant VSO order are always prepositional' <span class="cite">(Greenberg 1963: 78)</span>. The prepositional examples seen above corroborate this, and no postpositional construction is attested in Chamorro. The language therefore fits the predicted profile cleanly.</p>
+
+            <div class="tree">
+                <button class="tree-toggle" aria-expanded="false">
+                    <span>Constituent skeleton for example (1)</span>
+                    <span class="chev">＋</span>
+                </button>
+                <div class="tree-body">
+                    <div class="tree-body-inner">              CP
+              │
+            ┌─┴─┐
+            T'  …
+           ┌┴┐
+          V'  DP-S
+        ┌──┴──┐    │
+        V   DP-O   si nanå-hu
+   ha-patcha   │
+              i sanhilu' i hetnu'
+
+(Following Chung 1998 / 2020: the predicate
+fronts to the left periphery; arguments stay
+in situ, giving surface VSO.)</div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============ 03 ALIGNMENT ============ -->
+        <section class="section" id="alignment">
+            <header class="section-head">
+                <span class="num">03<span class="dot">.</span></span>
+                <div class="name">Alignment</div>
+                <p class="strap">A mood-conditioned split: ergative-absolutive in realis, nominative-accusative in irrealis. The nominal system, by contrast, is neutral.</p>
+            </header>
+
+            <div class="tldr">
+                <span class="tag">TL;DR</span>
+                Full noun phrases carry no overt case (neutral alignment). In realis verbal agreement, only A is cross-referenced for person — S patterns with P. In irrealis, both S and A are cross-referenced together — accusative-style. A productive antipassive (<em>man-/fan-</em>) clinches the ergative analysis of the realis side.
+            </div>
+
+            <ul class="minitoc">
+                <li><a href="#al-nom">Nominal case</a></li>
+                <li><a href="#al-real">Realis verbal</a></li>
+                <li><a href="#al-irr">Irrealis verbal</a></li>
+                <li><a href="#al-pron">Pronouns</a></li>
+                <li><a href="#al-ap">Antipassive</a></li>
+                <li><a href="#al-x">Crosslinguistic</a></li>
+            </ul>
+
+            <p><span class="lede">Chamorro</span> shows a split-ergative alignment system conditioned by the realis/irrealis mood distinction <span class="cite">(Cooreman 1987: 36; Zobel 2002: 410; Chung 2020: 175–200)</span>. The analysis below treats three loci of alignment marking in turn — nominal case, verbal person marking, and the pronominal system — and follows Cooreman and Chung in concluding that nominal case is neutral, verbal person marking is split-ergative, and the weak-pronoun system reflects the verbal split. The section closes with the antipassive, which is typologically diagnostic of ergative systems.</p>
+
+            <h3 id="al-nom"><span class="subsec"><span class="ix">3.1</span>Nominal case marking</span></h3>
+
+            <p>Chamorro has a morphological distinction between an unmarked case, an oblique case, and a local case <span class="cite">(Chung 2020: 87)</span>. However, 'the unmarked case is used for noun phrases that are subjects or direct objects' (Chung 2020: 91). The A, S and P arguments of a verb all appear in the unmarked case when they are full NPs. Nominal case therefore instantiates <strong>neutral</strong> alignment, and on its own it cannot distinguish A from P.</p>
+
+            <h3 id="al-real"><span class="subsec"><span class="ix">3.2</span>Verbal person marking — realis</span></h3>
+
+            <p>Chamorro distinguishes realis from irrealis mood morphologically. In realis clauses, the verb agrees with A in both person and number through a proclitic paradigm (e.g. <em>ha-</em> '3SG'). By contrast, S is marked only for number, via the alternation between the realis intransitive infix <em>‹um›</em> (singular) and the prefix <em>man-</em> (plural). No person information is encoded on S. Compare the intransitive clauses (10)–(11) with the transitive clause (12).</p>
+
+            <div class="gloss" data-copy="Tumohge i lahi.">
+                <div class="gloss-head">
+                    <span class="gloss-num">10</span>
+                    <button class="copy-btn" data-copy-btn>
+                        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="interlinear">
+                    <div class="morph" data-pair="a10a">T‹um›ohge</div><div class="gl" data-pair="a10a">‹SG›stand.up</div>
+                    <div class="morph" data-pair="a10b">i</div><div class="gl" data-pair="a10b">ART</div>
+                    <div class="morph" data-pair="a10c">lahi</div><div class="gl" data-pair="a10c">man.SG</div>
+                </div>
+                <div class="free">The man stood up.</div>
+                <div class="gloss-source">— Topping (1973: 83), glosses ours</div>
+            </div>
+
+            <div class="gloss" data-copy="Man-ohge i lalahi.">
+                <div class="gloss-head">
+                    <span class="gloss-num">11</span>
+                    <button class="copy-btn" data-copy-btn>
+                        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="interlinear">
+                    <div class="morph" data-pair="a11a">Man-ohge</div><div class="gl" data-pair="a11a">PL-stand.up</div>
+                    <div class="morph" data-pair="a11b">i</div><div class="gl" data-pair="a11b">ART</div>
+                    <div class="morph" data-pair="a11c">lalahi</div><div class="gl" data-pair="a11c">man.PL</div>
+                </div>
+                <div class="free">The men stood up.</div>
+                <div class="gloss-source">— Topping (1973: 186), glosses ours</div>
+            </div>
+
+            <div class="gloss" data-copy="Ha-li'i' si Juan i pätgun lahi.">
+                <div class="gloss-head">
+                    <span class="gloss-num">12</span>
+                    <button class="copy-btn" data-copy-btn>
+                        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="interlinear">
+                    <div class="morph" data-pair="a12a">Ha-</div><div class="gl" data-pair="a12a">ERG.3SG-</div>
+                    <div class="morph" data-pair="a12b">li'i'</div><div class="gl" data-pair="a12b">see</div>
+                    <div class="morph" data-pair="a12c">si</div><div class="gl" data-pair="a12c">UNM</div>
+                    <div class="morph" data-pair="a12d">Juan</div><div class="gl" data-pair="a12d">Juan</div>
+                    <div class="morph" data-pair="a12e">i</div><div class="gl" data-pair="a12e">ART</div>
+                    <div class="morph" data-pair="a12f">pätgun</div><div class="gl" data-pair="a12f">child</div>
+                    <div class="morph" data-pair="a12g">lahi</div><div class="gl" data-pair="a12g">male</div>
+                </div>
+                <div class="free">Juan saw the boy.</div>
+                <div class="gloss-source">— Chung (1998: 22, ex. 3), re-glossed</div>
+            </div>
+
+            <p>In (12), <em>ha-</em> cross-references A as third-person singular. No equivalent person-marking appears on the S-verbs in (10)–(11). S and A are therefore treated differently in realis mood, which is diagnostic of <strong>ergative-absolutive</strong> alignment: the key parallel is between S and P. Neither triggers person agreement on the verb, and in that respect they pattern together as a class to which A does not belong.</p>
+
+            <h3 id="al-irr"><span class="subsec"><span class="ix">3.3</span>Verbal person marking — irrealis</span></h3>
+
+            <p>In irrealis clauses, the verb agrees with its subject in both person and number regardless of transitivity <span class="cite">(Cooreman 1987: 35)</span>. In (13), the matrix clause is realis transitive (<em>Ha-tago'</em>), but the embedded complement is irrealis intransitive (<em>baihu-hanao</em> 'I will go'), where <em>baihu-</em> marks the subject as first-person singular in irrealis mood. Example (14) shows the transitive parallel.</p>
+
+            <div class="gloss" data-copy="Ha-tago' yo' si Pedro na baihu-hanao.">
+                <div class="gloss-head">
+                    <span class="gloss-num">13</span>
+                    <button class="copy-btn" data-copy-btn>
+                        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="interlinear">
+                    <div class="morph" data-pair="a13a">Ha-tago'</div><div class="gl" data-pair="a13a">ERG.3SG-order</div>
+                    <div class="morph" data-pair="a13b">yo'</div><div class="gl" data-pair="a13b">ABS.1SG</div>
+                    <div class="morph" data-pair="a13c">si</div><div class="gl" data-pair="a13c">UNM</div>
+                    <div class="morph" data-pair="a13d">Pedro</div><div class="gl" data-pair="a13d">Peter</div>
+                    <div class="morph" data-pair="a13e">na</div><div class="gl" data-pair="a13e">COMP</div>
+                    <div class="morph" data-pair="a13f">baihu-</div><div class="gl" data-pair="a13f">IRR.1SG-</div>
+                    <div class="morph" data-pair="a13g">hanao</div><div class="gl" data-pair="a13g">go</div>
+                </div>
+                <div class="free">Peter ordered me to go.</div>
+                <div class="gloss-source">— Cooreman (1987: 39, ex. 60b)</div>
+            </div>
+
+            <div class="gloss" data-copy="Para en-li'e' i lahi.">
+                <div class="gloss-head">
+                    <span class="gloss-num">14</span>
+                    <button class="copy-btn" data-copy-btn>
+                        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="interlinear">
+                    <div class="morph" data-pair="a14a">Para</div><div class="gl" data-pair="a14a">IRR</div>
+                    <div class="morph" data-pair="a14b">en-</div><div class="gl" data-pair="a14b">IRR.2PL-</div>
+                    <div class="morph" data-pair="a14c">li'e'</div><div class="gl" data-pair="a14c">see</div>
+                    <div class="morph" data-pair="a14d">i</div><div class="gl" data-pair="a14d">ART</div>
+                    <div class="morph" data-pair="a14e">lahi</div><div class="gl" data-pair="a14e">man</div>
+                </div>
+                <div class="free">You (pl.) will see the man.</div>
+                <div class="gloss-source">— Topping (1973: 263), glosses ours</div>
+            </div>
+
+            <p>In irrealis clauses, S and A are marked in the same way, to the exclusion of P. This is <strong>nominative-accusative</strong> alignment. Because the verbal person system is ergative-absolutive in realis but nominative-accusative in irrealis, Chamorro has a genuinely split alignment system, conditioned by mood.</p>
+
+            <h3 id="al-pron"><span class="subsec"><span class="ix">3.4</span>The pronominal system</span></h3>
+
+            <p>Chamorro has two sets of personal pronouns, traditionally called 'strong' and 'weak' <span class="cite">(Chung 1998: 28; 2020: 175–180)</span>. Strong pronouns are semantically and pragmatically marked, occurring in focus, emphasis, and as prepositional complements. Weak pronouns are the unmarked option. Weak pronouns such as <em>yo'</em> 'I/me' can only appear where they are not cross-referenced by verbal agreement — that is, as S in realis clauses, and as P in both realis and irrealis clauses <span class="cite">(Zobel 2002: 410)</span>. In irrealis intransitive clauses, where verbal agreement encodes a first-person plural subject, an overt weak pronoun cannot appear, as shown in (15).</p>
+
+            <div class="gloss" data-copy="*Bai infan-mattu häm agupa'.">
+                <div class="gloss-head">
+                    <span class="gloss-num">15</span>
+                    <button class="copy-btn" data-copy-btn>
+                        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="interlinear">
+                    <div class="morph" data-pair="a15a">*Bai</div><div class="gl" data-pair="a15a">IRR</div>
+                    <div class="morph" data-pair="a15b">infan-</div><div class="gl" data-pair="a15b">IRR.1PL-</div>
+                    <div class="morph" data-pair="a15c">mattu</div><div class="gl" data-pair="a15c">arrive</div>
+                    <div class="morph" data-pair="a15d">häm</div><div class="gl" data-pair="a15d">1PL</div>
+                    <div class="morph" data-pair="a15e">agupa'</div><div class="gl" data-pair="a15e">tomorrow</div>
+                </div>
+                <div class="free">(intended: We will arrive tomorrow.)</div>
+                <div class="gloss-source">— Chung (1998: 31, ex. 20a); ungrammatical</div>
+            </div>
+
+            <p>The weak-pronoun paradigm thus mirrors the verbal split: weak pronouns themselves align ergative-absolutively (S in realis, P everywhere) because the verbal system 'uses up' the S slot in irrealis clauses through obligatory agreement.</p>
+
+            <h3 id="al-ap"><span class="subsec"><span class="ix">3.5</span>The antipassive</span></h3>
+
+            <p>Chamorro has a productive antipassive construction <span class="cite">(Cooreman 1988; Chung 2020: ch. 10)</span>, formed with the prefix <em>man-</em> (realis) or <em>fan-</em> (irrealis). The antipassive is typologically diagnostic of ergative alignment: it detransitivises a clause by promoting A to S and demoting P to an optional oblique. In (16a) the transitive <em>Un-patek</em> 'you kicked' takes <em>i ga'lagu</em> 'the dog' as its P; in the antipassive (16b), <em>hao</em> is now S and the patient appears in an oblique phrase.</p>
+
+            <div class="gloss" data-copy="Un-patek i ga'lagu.">
+                <div class="gloss-head">
+                    <span class="gloss-num">16a</span>
+                    <button class="copy-btn" data-copy-btn>
+                        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="interlinear">
+                    <div class="morph" data-pair="a16a">Un-patek</div><div class="gl" data-pair="a16a">ERG.2SG-kick</div>
+                    <div class="morph" data-pair="a16b">i</div><div class="gl" data-pair="a16b">ART</div>
+                    <div class="morph" data-pair="a16c">ga'lagu</div><div class="gl" data-pair="a16c">dog</div>
+                </div>
+                <div class="free">You kicked the dog.</div>
+                <div class="gloss-source">— Cooreman (1988, ex. 4a)</div>
+            </div>
+
+            <div class="gloss" data-copy="Mamatek hao gi ga'lago.">
+                <div class="gloss-head">
+                    <span class="gloss-num">16b</span>
+                    <button class="copy-btn" data-copy-btn>
+                        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="interlinear">
+                    <div class="morph" data-pair="a16d">Mamatek</div><div class="gl" data-pair="a16d">ANTIP.kick</div>
+                    <div class="morph" data-pair="a16e">hao</div><div class="gl" data-pair="a16e">ABS.2SG</div>
+                    <div class="morph" data-pair="a16f">gi</div><div class="gl" data-pair="a16f">LOC</div>
+                    <div class="morph" data-pair="a16g">ga'lago</div><div class="gl" data-pair="a16g">dog</div>
+                </div>
+                <div class="free">You kicked at the dog.</div>
+                <div class="gloss-source">— Cooreman (1988, ex. 4b)</div>
+            </div>
+
+            <p>Cooreman (1987, 1988) argues that the antipassive is pragmatically restricted to contexts in which P is non-topical or indefinite — a functional correlate of its morphosyntactic demotion. The availability of a dedicated antipassive reinforces the ergative analysis of the realis paradigm: in a system where A is the cross-referenced argument and P is the un-referenced NP, the operation that detransitivises a clause targets precisely the A of a transitive clause.</p>
+
+            <h3 id="al-x"><span class="subsec"><span class="ix">3.6</span>Crosslinguistic context</span></h3>
+
+            <p>Chamorro's nominal alignment is crosslinguistically common: 52% of the 190 languages in Comrie's (2013a, WALS ch. 98) sample show neutral case-marking on full NPs. For pronoun alignment, Comrie <span class="cite">(2013b, WALS feature 99A)</span> codes Chamorro as ergative-absolutive — making it the only language in his sample that combines neutral alignment on full NPs with ergative alignment on pronouns. This unusual coding reflects the system described in §3.4, where weak pronouns are distributed by the ergative verbal-agreement pattern. The verbal alignment is rarer still: Siewierska <span class="cite">(2013, WALS ch. 100)</span> codes only around 5–7% of her sample as ergative or split, and Chamorro's specifically mood-conditioned, ergative/accusative split is only one sub-pattern. Split-ergativity conditioned by the imperfective/realis vs. perfective/irrealis distinction is associated especially with some Indo-Aryan and Kartvelian languages (e.g. Hindi-Urdu, Georgian). Chamorro's split is unusual among Austronesian languages in being so clearly morphological rather than semantic, and remains a productive site for typological research.</p>
+
+            <p>DeLancey (1981) proposes that split-ergativity reflects a natural attention-flow asymmetry tied to aspect. In perfective clauses, the speaker's attention rests on the patient, so A is singled out for special marking; in imperfective clauses, attention rests on the agent, so P is singled out instead. Whether Chamorro's realis/irrealis distinction maps straightforwardly onto DeLancey's perfective/imperfective split is not obvious, but a rough comparison is informative. In realis, A alone receives person agreement (ergative patterning), consistent with DeLancey's prediction that the perfective-like mood should single out A. The accusative half in irrealis, however, does not follow straightforwardly from DeLancey's model — which predicts that the imperfective-like mood should single out P rather than leaving it unmarked relative to a shared S/A pattern. The Chamorro data are therefore at best partially compatible with DeLancey's account, and do not on their own confirm or refute it.</p>
+        </section>
+
+
+        <!-- ============ 04 COMPARISON ============ -->
+        <section class="section" id="comparison">
+            <header class="section-head">
+                <span class="num">04<span class="dot">.</span></span>
+                <div class="name">Comparison</div>
+                <p class="strap">Comparative ordering is overtly encoded — a textbook 'explicit' strategy in Stassen's typology — but three of the four exponents have been borrowed from Spanish.</p>
+            </header>
+
+            <div class="tldr">
+                <span class="tag">TL;DR</span>
+                Chamorro marks comparison with a native suffix <em>-ña</em>, a Spanish-derived particle <em>mås</em> 'more', and a Spanish-derived standard marker <em>kinu/ki</em> 'than'. Equatives use <em>achá-</em>, superlatives <em>mås … i / itmås</em>. Differential measure phrases (<em>mås menus</em> 'much less') are allowed, confirming the explicit-gradable analysis.
+            </div>
+
+            <ul class="minitoc">
+                <li><a href="#cm-pred">Predicative</a></li>
+                <li><a href="#cm-attr">Attributive &amp; adverbial</a></li>
+                <li><a href="#cm-eq">Equatives &amp; superlatives</a></li>
+                <li><a href="#cm-cont">Contact origins</a></li>
+                <li><a href="#cm-eval">Evaluation</a></li>
+            </ul>
+
+            <p><span class="lede">Chamorro</span> expresses comparative orderings using an explicit strategy <span class="cite">(Stassen 2013)</span>. A greater-than relation between a comparee and a standard is overtly encoded by dedicated functional morphology: a comparative suffix <em>-ña</em> on the dimension, or one of the free particles <em>mås</em> 'more' and <em>menus</em> 'less', together with a standard marker <em>kinu ~ ki</em> 'than' <span class="cite">(Topping 1973: 207; Chung 2020: 570–578)</span>. The construction is overtly morphological and overtly relational, distinguishing Chamorro from languages with a purely implicit (conjoined) comparative strategy.</p>
+
+            <h3 id="cm-pred"><span class="subsec"><span class="ix">4.1</span>Predicative comparatives</span></h3>
+
+            <p>The canonical predicative comparative has the form <em>A-ña</em> (or <em>mås A</em>) followed by the standard introduced by <em>kinu / ki</em>, as in (17).</p>
+
+            <div class="gloss" data-copy="Bunituña i bås turis kini bås iskuela.">
+                <div class="gloss-head">
+                    <span class="gloss-num">17</span>
+                    <button class="copy-btn" data-copy-btn>
+                        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="interlinear">
+                    <div class="morph" data-pair="c17a">Bunitu-ña</div><div class="gl" data-pair="c17a">AGR.pretty.CMPR</div>
+                    <div class="morph" data-pair="c17b">i</div><div class="gl" data-pair="c17b">ART</div>
+                    <div class="morph" data-pair="c17c">bås</div><div class="gl" data-pair="c17c">bus.L</div>
+                    <div class="morph" data-pair="c17d">turis</div><div class="gl" data-pair="c17d">tourist</div>
+                    <div class="morph" data-pair="c17e">kini</div><div class="gl" data-pair="c17e">than</div>
+                    <div class="morph" data-pair="c17f">bås</div><div class="gl" data-pair="c17f">bus.L</div>
+                    <div class="morph" data-pair="c17g">iskuela</div><div class="gl" data-pair="c17g">school</div>
+                </div>
+                <div class="free">The tourist bus is nicer than the school bus.</div>
+                <div class="gloss-source">— Chung (2020: 570, ex. 17a)</div>
+            </div>
+
+            <p>When the standard is recoverable from prior discourse it can be omitted, but the comparative suffix <em>-ña</em> is retained, as in (18). This is important for the typological analysis: the suffix marks ordering, not simply the presence of a standard.</p>
+
+            <div class="gloss" data-copy="Dångkulu i tuninus na gå'ga', låo dangkulonña i bayena.">
+                <div class="gloss-head">
+                    <span class="gloss-num">18</span>
+                    <button class="copy-btn" data-copy-btn>
+                        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="interlinear">
+                    <div class="morph" data-pair="c18a">Dångkulu</div><div class="gl" data-pair="c18a">AGR.big</div>
+                    <div class="morph" data-pair="c18b">i</div><div class="gl" data-pair="c18b">ART</div>
+                    <div class="morph" data-pair="c18c">tuninus</div><div class="gl" data-pair="c18c">dolphin</div>
+                    <div class="morph" data-pair="c18d">na</div><div class="gl" data-pair="c18d">L</div>
+                    <div class="morph" data-pair="c18e">gå'ga'</div><div class="gl" data-pair="c18e">animal</div>
+                    <div class="morph" data-pair="c18f">låo</div><div class="gl" data-pair="c18f">but</div>
+                    <div class="morph" data-pair="c18g">dangkulon-ña</div><div class="gl" data-pair="c18g">AGR.big.CMPR</div>
+                    <div class="morph" data-pair="c18h">i</div><div class="gl" data-pair="c18h">ART</div>
+                    <div class="morph" data-pair="c18i">bayena</div><div class="gl" data-pair="c18i">whale</div>
+                </div>
+                <div class="free">Dolphins are big sea animals, but whales are bigger.</div>
+                <div class="gloss-source">— Chung (2020: 575, ex. 26b)</div>
+            </div>
+
+            <p>The suffix <em>-ña</em> is syncretic with a possessor-agreement suffix (see §5); in the comparative it is analysable as a degree morpheme rather than a possessive. A morphological argument for treating it as genuinely comparative — not just a degree intensifier — is that <em>-ña</em> is incompatible with equative and superlative readings: equatives use the prefix <em>achá-</em>, and superlatives use <em>mås</em> or <em>itmås</em>.</p>
+
+            <h3 id="cm-attr"><span class="subsec"><span class="ix">4.2</span>Attributive and adverbial comparatives</span></h3>
+
+            <p>The particle <em>mås</em> is more flexible than the suffix. It can modify an adjective in an attributive construction (as in <em>mås meggai apatcha'</em> 'more brown-spotted grasshoppers'), an intransitive verb in an adverbial construction (<em>sigi ha' mås ma'åomenta i tiningo'-hu</em> 'my knowledge keeps expanding'), or a locative adverbial (<em>påpa' mås ni gaigi i lanchu</em> 'farther down is where the farm is') — see Chung (2020: 573–576) for further examples.</p>
+
+            <h3 id="cm-eq"><span class="subsec"><span class="ix">4.3</span>Equatives, superlatives and differentials</span></h3>
+
+            <p>Equality is marked with the stressed prefix <em>achá-</em> 'equally, similarly' on the dimension, as in (19).</p>
+
+            <div class="gloss" data-copy="Achadangkulu i rainun rain Ispåña yan i rain Inglatera.">
+                <div class="gloss-head">
+                    <span class="gloss-num">19</span>
+                    <button class="copy-btn" data-copy-btn>
+                        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="interlinear">
+                    <div class="morph" data-pair="c19a">Achá-dangkulu</div><div class="gl" data-pair="c19a">AGR.equally.big</div>
+                    <div class="morph" data-pair="c19b">i</div><div class="gl" data-pair="c19b">ART</div>
+                    <div class="morph" data-pair="c19c">rainun</div><div class="gl" data-pair="c19c">kingdom.L</div>
+                    <div class="morph" data-pair="c19d">rain</div><div class="gl" data-pair="c19d">king.L</div>
+                    <div class="morph" data-pair="c19e">Ispåña</div><div class="gl" data-pair="c19e">Spain</div>
+                    <div class="morph" data-pair="c19f">yan</div><div class="gl" data-pair="c19f">and</div>
+                    <div class="morph" data-pair="c19g">i</div><div class="gl" data-pair="c19g">ART</div>
+                    <div class="morph" data-pair="c19h">rain</div><div class="gl" data-pair="c19h">king.L</div>
+                    <div class="morph" data-pair="c19i">Inglatera</div><div class="gl" data-pair="c19i">England</div>
+                </div>
+                <div class="free">The king of Spain's kingdom is as big as the king of England's.</div>
+                <div class="gloss-source">— Chung (2020: 579, ex. 34a)</div>
+            </div>
+
+            <p>Superlatives are formed with <em>mås</em> plus the definite article <em>i</em>, or with the Spanish-derived <em>itmås</em> (&lt; Sp. <em>el más</em>); differential measure phrases such as <em>mås menus</em> 'much less' are allowed, consistent with an explicit gradient analysis <span class="cite">(Stassen 2013; Dixon 2008)</span>. The availability of differentials is crucial: a language whose comparative can host differentials is plausibly gradable, i.e. explicit. Example (20) illustrates a differential.</p>
+
+            <div class="gloss" data-copy="Mås menus kinanno'-hu nigap na ha'åni ki på'gu na ogga'an.">
+                <div class="gloss-head">
+                    <span class="gloss-num">20</span>
+                    <button class="copy-btn" data-copy-btn>
+                        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="interlinear">
+                    <div class="morph" data-pair="c20a">Mås</div><div class="gl" data-pair="c20a">more</div>
+                    <div class="morph" data-pair="c20b">menus</div><div class="gl" data-pair="c20b">AGR.less</div>
+                    <div class="morph" data-pair="c20c">kinanno'-hu</div><div class="gl" data-pair="c20c">WH.eat-POSS.1SG</div>
+                    <div class="morph" data-pair="c20d">nigap</div><div class="gl" data-pair="c20d">yesterday</div>
+                    <div class="morph" data-pair="c20e">na</div><div class="gl" data-pair="c20e">L</div>
+                    <div class="morph" data-pair="c20f">ha'åni</div><div class="gl" data-pair="c20f">day</div>
+                    <div class="morph" data-pair="c20g">ki</div><div class="gl" data-pair="c20g">than</div>
+                    <div class="morph" data-pair="c20h">på'gu</div><div class="gl" data-pair="c20h">now</div>
+                    <div class="morph" data-pair="c20i">na</div><div class="gl" data-pair="c20i">L</div>
+                    <div class="morph" data-pair="c20j">ogga'an</div><div class="gl" data-pair="c20j">morning</div>
+                </div>
+                <div class="free">I ate much less food yesterday than this morning.</div>
+                <div class="gloss-source">— Chung (2020: 574, ex. 24b)</div>
+            </div>
+
+            <h3 id="cm-cont"><span class="subsec"><span class="ix">4.4</span>Contact and origins</span></h3>
+
+            <p>Three of the four key exponents — <em>mås</em> 'more', <em>kinu/ki</em> 'than' and <em>itmås</em> 'most' — are Spanish borrowings from <em>más</em>, <em>que</em>, and <em>el más</em> respectively <span class="cite">(Stolz &amp; Stolz 2001; Rodríguez-Ponga 1995)</span>. Only the suffix <em>-ña</em> and the equative prefix <em>achá-</em> are unambiguously inherited. This makes Chamorro a useful case study in how contact can replace or duplicate native comparative morphology without, apparently, changing the typology of the construction (which remains explicit, standard-marked, and graded).</p>
+
+            <h3 id="cm-eval"><span class="subsec"><span class="ix">4.5</span>Evaluation</span></h3>
+
+            <p>The analysis distinguishes two semantic strategies for comparison <span class="cite">(cf. Stassen 2013, WALS ch. 121)</span>. Under the explicit strategy, dedicated functional morphology directly encodes the ordering relation between comparee and standard. Under the implicit strategy, the ordering is not encoded but inferred — a sentence says that a property holds of the comparee and does not hold of the standard, without ever asserting that one exceeds the other. The mapping between form and strategy is not one-to-one: Nez Perce has a morphological comparative particle <em>qetu</em> 'more', but Deal &amp; Hohaus (2019) argue that the language nonetheless uses an implicit strategy, since it lacks differential comparatives, measure constructions, and degree questions. The presence of comparative morphology is therefore not on its own sufficient evidence for the explicit strategy.</p>
+
+            <p>This makes the Chamorro evidence for an explicit analysis particularly telling. Chamorro not only has dedicated comparative morphology (<em>-ña</em>, <em>mås</em>, <em>kinu/ki</em>) but also permits differential measure phrases such as <em>mås menus</em> 'much less' and superlative constructions with <em>itmås</em>. These are the constructions that are unavailable in implicit-strategy languages like Nez Perce. Their availability in Chamorro supports an analysis in which the comparative encodes a genuine scalar ordering, not a coarser partition into 'X is A, Y is not A'. Chamorro therefore falls clearly on the explicit side of Stassen's typology. A remaining question is whether the suffix <em>-ña</em> itself contributes the comparative meaning compositionally or whether the ordering is introduced by a silent degree operator — answering it would require the kind of acceptability judgements that are not available from the published descriptive sources.</p>
+        </section>
+
+
+        <!-- ============ 05 POSSESSION ============ -->
+        <section class="section" id="possession">
+            <header class="section-head">
+                <span class="num">05<span class="dot">.</span></span>
+                <div class="name">Possession</div>
+                <p class="strap">Head-marking throughout: a possessor-agreement suffix on the head noun, and a general linker <em>-n</em> when the possessor is a full NP. Alienability is a gradient, not a binary.</p>
+            </header>
+
+            <div class="tldr">
+                <span class="tag">TL;DR</span>
+                Chamorro is head-marking in the nominal domain (Nichols 1986). Pronominal possessors are realised as suffixes on the possessed head; full-NP possessors are introduced by the general linker <em>-n</em>. Body-part and kinship terms take only the suffix (inalienable end of Nichols's hierarchy); historically a separate dependent-noun system (<em>iyo-</em> / <em>gâ-</em> / <em>na'-</em>) marked the alienable end.
+            </div>
+
+            <ul class="minitoc">
+                <li><a href="#pos-pron">Pronominal</a></li>
+                <li><a href="#pos-full">Full-NP</a></li>
+                <li><a href="#pos-inal">Inalienability</a></li>
+                <li><a href="#pos-dbl">Double possession</a></li>
+                <li><a href="#pos-x">Crosslinguistic</a></li>
+            </ul>
+
+            <p><span class="lede">Adnominal</span> possession in Chamorro is organised around two main structural resources: a possessor-agreement suffix on the head noun (used when the possessor is pronominal or the relation is inalienable), and a linker <em>-n</em> (sometimes <em>=n</em>) that relates the head noun to a following full-NP possessor. Following Nichols (1986) and Nichols &amp; Bickel <span class="cite">(2013, WALS ch. 24–25)</span>, this makes Chamorro a <strong>head-marking</strong> language in the nominal domain: the morphology encoding the possessive relation sits on the possessed head, not on the dependent possessor.</p>
+
+            <h3 id="pos-pron"><span class="subsec"><span class="ix">5.1</span>Pronominal possession</span></h3>
+
+            <p>Pronominal possession is marked by a suffix on the head noun. The full paradigm is given by Chung (2020: 142); it covers all persons and numbers, including the inclusive/exclusive distinction in the first person.</p>
+
+            <table class="data-table">
+                <thead><tr><th>Person</th><th>Suffix</th></tr></thead>
+                <tbody>
+                    <tr><td>1SG</td><td>-hu / -ku</td></tr>
+                    <tr><td>2SG</td><td>-mu</td></tr>
+                    <tr><td>3SG</td><td>-ña</td></tr>
+                    <tr><td>1INCL DU/PL</td><td>-ta</td></tr>
+                    <tr><td>1EXCL DU/PL</td><td>(n)-måmi</td></tr>
+                    <tr><td>2DU/PL</td><td>(n)-miyu</td></tr>
+                    <tr><td>3DU/PL</td><td>(n)-ñiha</td></tr>
+                </tbody>
+            </table>
+
+            <p>The alternation between <em>-hu</em> and <em>-ku</em> in the first person singular is conditioned by the preceding syllable structure <span class="cite">(Chung 2020: 686–687)</span>. The bracketed <em>n</em> in the plural forms surfaces when the possessed noun ends in a vowel. Example (21) shows the first-person singular on <em>leblu</em> 'book'; (22) shows the same suffix in a full clausal context.</p>
+
+            <div class="gloss" data-copy="leblo-ku">
+                <div class="gloss-head">
+                    <span class="gloss-num">21</span>
+                    <button class="copy-btn" data-copy-btn>
+                        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="interlinear">
+                    <div class="morph" data-pair="p21a">leblo-ku</div><div class="gl" data-pair="p21a">book-POSS.1SG</div>
+                </div>
+                <div class="free">my book</div>
+                <div class="gloss-source">— Topping (1973: 222), glosses ours</div>
+            </div>
+
+            <div class="gloss" data-copy="i tiempok-ku på'gu guini">
+                <div class="gloss-head">
+                    <span class="gloss-num">22</span>
+                    <button class="copy-btn" data-copy-btn>
+                        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="interlinear">
+                    <div class="morph" data-pair="p22a">i</div><div class="gl" data-pair="p22a">the</div>
+                    <div class="morph" data-pair="p22b">tiempok-ku</div><div class="gl" data-pair="p22b">time-AGR</div>
+                    <div class="morph" data-pair="p22c">på'gu</div><div class="gl" data-pair="p22c">now</div>
+                    <div class="morph" data-pair="p22d">guini</div><div class="gl" data-pair="p22d">here</div>
+                </div>
+                <div class="free">my time here today</div>
+                <div class="gloss-source">— Chung (2020: 141, ex. 1a)</div>
+            </div>
+
+            <p>In (22), the possessor is a null first-person pronoun cross-referenced by the suffix <em>-ku</em>. Chamorro pronouns that are cross-referenced by agreement in person are always null <span class="cite">(Chung 2020: 142)</span>, so no overt pronoun appears. The possessor-agreement suffix is the only element signalling the possessive relation — no separate genitive particle, no linker, no independent possessive pronoun.</p>
+
+            <h3 id="pos-full"><span class="subsec"><span class="ix">5.2</span>Full-NP possession</span></h3>
+
+            <p>When the possessor is a full noun phrase, the relation is expressed by a linker <em>-n</em> on the head noun, followed by the possessor NP in the unmarked case, as in (23).</p>
+
+            <div class="gloss" data-copy="i leblo-n estudiante">
+                <div class="gloss-head">
+                    <span class="gloss-num">23</span>
+                    <button class="copy-btn" data-copy-btn>
+                        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="interlinear">
+                    <div class="morph" data-pair="p23a">i</div><div class="gl" data-pair="p23a">ART</div>
+                    <div class="morph" data-pair="p23b">leblo-n</div><div class="gl" data-pair="p23b">book-L</div>
+                    <div class="morph" data-pair="p23c">estudiante</div><div class="gl" data-pair="p23c">student</div>
+                </div>
+                <div class="free">the student's book</div>
+                <div class="gloss-source">— Topping (1973: 223), glosses ours</div>
+            </div>
+
+            <p>Chung (2020: 142) notes that the linker is not restricted to possessive contexts. It is 'a morpheme used more generally in Chamorro to indicate that a head has a modifier or other dependent', appearing in compound formations, noun–adjective sequences with a non-agreeing modifier, and other head-dependent configurations. The possessive interpretation is therefore compositional — supplied by the lexical semantics of the two nouns rather than by the linker itself. Chamorro does not formally grammaticalise a genitive case distinct from other linker-marked relations.</p>
+
+            <h3 id="pos-inal"><span class="subsec"><span class="ix">5.3</span>Inalienable possession and the Inalienability Hierarchy</span></h3>
+
+            <p>A sub-pattern within the possessor-agreement system is the treatment of inalienable relations. Body parts and kinship terms take a possessive suffix directly, without a linker or an independent possessor. Example (24) shows the body-part noun <em>kannai</em> 'hand' with a first-person singular suffix, and (25) shows the kinship term <em>tatå</em> 'father' with a third-person plural suffix.</p>
+
+            <div class="gloss" data-copy="Ha Na'puti ha' kannai-hu anai ha gu'ut si Long.">
+                <div class="gloss-head">
+                    <span class="gloss-num">24</span>
+                    <button class="copy-btn" data-copy-btn>
+                        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="interlinear">
+                    <div class="morph" data-pair="p24a">Ha</div><div class="gl" data-pair="p24a">ERG.3SG</div>
+                    <div class="morph" data-pair="p24b">Na'puti</div><div class="gl" data-pair="p24b">make.hurt</div>
+                    <div class="morph" data-pair="p24c">ha'</div><div class="gl" data-pair="p24c">EMP</div>
+                    <div class="morph" data-pair="p24d">kannai-hu</div><div class="gl" data-pair="p24d">hand-POSS.1SG</div>
+                    <div class="morph" data-pair="p24e">anai</div><div class="gl" data-pair="p24e">when</div>
+                    <div class="morph" data-pair="p24f">ha</div><div class="gl" data-pair="p24f">ERG.3SG</div>
+                    <div class="morph" data-pair="p24g">gu'ut</div><div class="gl" data-pair="p24g">hold</div>
+                    <div class="morph" data-pair="p24h">si</div><div class="gl" data-pair="p24h">UNM</div>
+                    <div class="morph" data-pair="p24i">Long</div><div class="gl" data-pair="p24i">Long</div>
+                </div>
+                <div class="free">Long made my hand hurt when he grasped it.</div>
+                <div class="gloss-source">— Chung (2020: 274, ex. 31), re-glossed</div>
+            </div>
+
+            <div class="gloss" data-copy="i tatån-ñiha">
+                <div class="gloss-head">
+                    <span class="gloss-num">25</span>
+                    <button class="copy-btn" data-copy-btn>
+                        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="interlinear">
+                    <div class="morph" data-pair="p25a">i</div><div class="gl" data-pair="p25a">ART</div>
+                    <div class="morph" data-pair="p25b">tatån-ñiha</div><div class="gl" data-pair="p25b">father-POSS.3PL</div>
+                </div>
+                <div class="free">their father</div>
+                <div class="gloss-source">— Topping (1973: 222), glosses ours</div>
+            </div>
+
+            <p>The Chamorro alienability split is more subtle than a simple zero-coded vs. overtly-coded contrast. It is tempting to say that inalienable possession is less marked (the possessee takes only a pronominal suffix) while alienable possession is more marked (with a linker), consistent with Haspelmath's <span class="cite">(2008, 2017)</span> generalisation that if one of the two constructions carries more overt marking, it will be the alienable one. But in Chamorro the suffix itself is overt. What distinguishes inalienable from alienable relations is not the presence or absence of a morpheme but the <em>absence of an independent classifier</em> in the inalienable construction.</p>
+
+            <p>Safford (1903: 511) describes an older pattern in which alienable possessive relations are mediated by a dependent noun (or 'possessive classifier' in Topping's 1973 terminology): <em>iyo-</em> for inanimate objects, and <em>gâ-</em> (probably from <em>gåga</em> 'animal') for animals, each inflected for person and number. Safford gives the paradigm <em>iyoko / iyomo / iyoña</em> 'my/your/his (possession)' for objects, and <em>gâho / gâmo / gâña</em> 'my/your/his (animal)' for pets and livestock. Chung (2020: 148–150) retains this three-way system (<em>ga'-</em>, <em>na'-</em> 'food', and <em>iyu-</em> 'possession') but reanalyses the elements as dependent nouns rather than classifiers, on the grounds that they can be incorporated into verbs of possession while full possessive NPs cannot. The system is less prominent in modern Chamorro than in Safford's description, possibly reflecting change under contact. <em>Iyo-</em> nonetheless survives in productive compounds such as <em>iyon-tano</em> 'terrestrial' (literally 'belonging of the earth').</p>
+
+            <p>The pattern is the expected one in terms of the Nichols (1988: 572) Inalienability Hierarchy: kinship terms and body parts are the most tightly bound to their possessor morphologically, while artefacts and abstract nouns are the least tightly bound and more readily take the linker or a dependent-noun construction.</p>
+
+            <table class="data-table">
+                <thead><tr><th>Relation type</th><th>Construction</th><th>Examples</th></tr></thead>
+                <tbody>
+                    <tr><td>Kinship</td><td>Suffix only</td><td>tatå-hu 'my father', nåna-hu 'my mother'</td></tr>
+                    <tr><td>Body parts</td><td>Suffix only</td><td>kannai-hu 'my hand', talanga-ña 'his ear'</td></tr>
+                    <tr><td>Intimate artefacts</td><td>Suffix or linker</td><td>magågu-mu 'your clothes'</td></tr>
+                    <tr><td>General objects</td><td>Linker / dep. noun</td><td>leblo-n estudiante; iyoko na guma</td></tr>
+                    <tr><td>Animals</td><td>Dependent noun (ga'-)</td><td>ga'-ña guaka 'his cow'</td></tr>
+                </tbody>
+            </table>
+
+            <p>This gradient pattern aligns with the typological generalisation that inalienable possession is typically head-marked while alienable possession is typically dependent-marked <span class="cite">(Nichols 1992: 117)</span>: the inalienable end of the hierarchy uses suffix-only (head-marking) constructions, while the alienable end historically made use of the <em>iyo-</em> / <em>gâ-</em> system, which introduces an additional lexical element between possessor and possessee.</p>
+
+            <p>Two competing explanations for the cross-linguistic shape of the alienability split deserve mention. Haiman (1983) proposes an iconic account: less morphological material between possessor and possessee mirrors a closer conceptual bond. Haspelmath (2017) offers a frequency-based alternative: inalienable nouns like body parts and kinship terms occur with an overt possessor much more often than alienable nouns do, and this higher frequency favours morphological reduction through economy. The Chamorro data are compatible with both accounts and do not clearly distinguish between them, since the suffix-only construction is both formally shorter and associated with the highest-frequency possessive contexts. A corpus study of possessor-occurrence rates in Chamorro would be needed to test Haspelmath's prediction directly.</p>
+
+            <h3 id="pos-dbl"><span class="subsec"><span class="ix">5.4</span>Double possession and discourse effects</span></h3>
+
+            <p>Chamorro allows what Topping (1973: 223) calls double possession — essentially a possessor-agreement suffix on the head and an overt full-NP possessor introduced by the personal article <em>si</em>. In (26), the third-person singular suffix on <em>gima'</em> 'house' is co-indexed with <em>si Rosa</em>.</p>
+
+            <div class="gloss" data-copy="i gima'-ña si Rosa">
+                <div class="gloss-head">
+                    <span class="gloss-num">26</span>
+                    <button class="copy-btn" data-copy-btn>
+                        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="interlinear">
+                    <div class="morph" data-pair="p26a">i</div><div class="gl" data-pair="p26a">ART</div>
+                    <div class="morph" data-pair="p26b">gima'-ña</div><div class="gl" data-pair="p26b">house-POSS.3SG</div>
+                    <div class="morph" data-pair="p26c">si</div><div class="gl" data-pair="p26c">UNM</div>
+                    <div class="morph" data-pair="p26d">Rosa</div><div class="gl" data-pair="p26d">Rosa</div>
+                </div>
+                <div class="free">Rosa's house</div>
+                <div class="gloss-source">— Topping (1973: 223), glosses ours</div>
+            </div>
+
+            <p>This construction is typologically similar to what Karvovskaya (2018: 136–148) calls 'multiple-exponent possession', where both head-marking and dependent-flagging are used simultaneously. In Chamorro, the double-marked construction serves a discourse-pragmatic function: the overt possessor is introduced when it would not be recoverable from context alone, while the suffix on the head maintains the language's strong head-marking preference.</p>
+
+            <h3 id="pos-x"><span class="subsec"><span class="ix">5.5</span>Crosslinguistic context</span></h3>
+
+            <p>Nichols (1992) and Nichols &amp; Bickel (2013) place Chamorro among the head-marking Austronesian languages alongside Samoan, Fijian and Tongan. Chamorro's two-way strategy — possessor-agreement suffix plus linker — is typologically common in this family. What is more distinctive is the degree to which the older <em>iyo-</em> / <em>gâ-</em> / <em>na'-</em> dependent-noun system has been displaced or restructured in the modern language, and the fact that the linker <em>-n</em> is not a dedicated genitive but a general head-dependent marker. Together these features make the alienability split in Chamorro structural rather than categorical — consistent with Nichols's (1988) observation that the inalienability hierarchy is usually a gradient phenomenon in any given language.</p>
+        </section>
+
+
+        <!-- ============ 06 SUMMARY ============ -->
+        <section class="section" id="summary">
+            <header class="section-head">
+                <span class="num">06<span class="dot">.</span></span>
+                <div class="name">Summary</div>
+                <p class="strap">What the data reveal, what we could not test, and where the loose threads run deeper than this portfolio can reach.</p>
+            </header>
+
+            <p><span class="lede">Chamorro</span> is an endangered Malayo-Polynesian language and, owing to prolonged colonial contact, one of the most heavily Hispanicised languages of the Pacific. Its word order is flexible VSO but rigid where morphosyntax alone cannot disambiguate arguments, and consistently head-initial across phrasal categories. The language permits a VOS alternative in contexts where ambiguity is low, suggesting that the variation is driven by interpretive clarity rather than free optionality. Chamorro's prepositional syntax conforms to Greenberg's (1963) Universal #3.</p>
+
+            <p>The alignment system is split by mood. Nominal case-marking is neutral; verbal person marking is ergative-absolutive in realis clauses and nominative-accusative in irrealis clauses; the weak-pronoun system tracks the verbal split. The productive antipassive in <em>man-/fan-</em> provides independent evidence for the ergative analysis. This mood-conditioned split is rare among Austronesian languages and only partially compatible with DeLancey's (1981) attention-flow model of split ergativity.</p>
+
+            <p>Comparative constructions follow the explicit strategy in Stassen's (2013) typology: a suffix <em>-ña</em>, a particle <em>mås</em>, and a standard marker <em>kinu/ki</em> encode the ordering directly, and the availability of differential measure phrases clinches the explicit analysis. Three of the four comparative exponents are Spanish borrowings — making Chamorro a useful test case for how contact can replace comparative morphology without altering the underlying typological strategy.</p>
+
+            <p>Adnominal possession is head-marking, with a possessor-agreement suffix for pronominal possessors and a linker <em>-n</em> for full NPs. The alienability split is gradient rather than categorical, following the Nichols (1988) Inalienability Hierarchy with kinship and body-part nouns at the tightly bound end, and the historically layered <em>iyo-</em> / <em>gâ-</em> classifier system at the alienable end.</p>
+
+            <h3><span class="subsec"><span class="ix">6.1</span>Limitations</span></h3>
+
+            <p>The principal methodological limitation was working from secondary sources without access to a native-speaker consultant. Most examples are drawn from Topping (1973), Chung (1998, 2020) and Cooreman (1987, 1988), so empirical questions that require acceptability or frequency judgements could not be tested independently. <em>WALS</em> codings for Chamorro also rely disproportionately on Topping (1973) and may not reflect later corrections in Chung. General methodological guidance on glossing and elicitation follows Payne (1997).</p>
+
+            <h3><span class="subsec"><span class="ix">6.2</span>Directions for further research</span></h3>
+
+            <p>Productive directions include: a corpus study of post-verbal argument ordering to quantify the VSO/VOS distribution; a closer investigation of the morphological status of <em>-ña</em> across comparative, possessive, and degree contexts; a study of the antipassive in spontaneous speech; and a description of the modern status of the alienability classifiers.</p>
+
+            <p style="font-family: var(--font-display); font-style: italic; font-size: 18px; color: var(--fg-muted); margin-top: 32px; padding-top: 22px; border-top: 1px solid var(--hairline);">Each loose thread, like the trench beneath the islands themselves, runs deeper than a portfolio of this scope can reach.</p>
+        </section>
+
+
+        <!-- ============ REFERENCES ============ -->
+        <section class="section refs" id="refs">
+            <header class="section-head">
+                <span class="num">⁂</span>
+                <div class="name">References</div>
+                <p class="strap">All works cited in this portfolio, in alphabetical order.</p>
+            </header>
+
+            <ol>
+                <li>Blust, Robert. 2000. Chamorro historical phonology. <em>Oceanic Linguistics</em> 39(1). 83–122.</li>
+                <li>Campbell, Lyle, Nala Huiying Lee, Eve Okura, Sean Simpson &amp; Kaori Ueki. 2022. Endangered languages. In <em>Glottolog 5.2</em>. Leipzig: Max Planck Institute for Evolutionary Anthropology. <span class="cite">https://glottolog.org/resource/languoid/id/cham1312</span></li>
+                <li>Chung, Sandra. 1998. <em>The design of agreement: Evidence from Chamorro</em>. Chicago: University of Chicago Press.</li>
+                <li>Chung, Sandra. 2020. <em>Chamorro Grammar</em>. Santa Cruz: eScholarship, University of California. <span class="cite">DOI: 10.48330/E2159R</span></li>
+                <li>Comrie, Bernard. 2013a. Alignment of case marking of full noun phrases. In Matthew S. Dryer &amp; Martin Haspelmath (eds.), <em>The world atlas of language structures online</em>. Leipzig: Max Planck Institute for Evolutionary Anthropology. <span class="cite">https://wals.info/chapter/98</span></li>
+                <li>Comrie, Bernard. 2013b. Alignment of case marking of pronouns. In Matthew S. Dryer &amp; Martin Haspelmath (eds.), <em>The world atlas of language structures online</em>. Leipzig: Max Planck Institute for Evolutionary Anthropology. <span class="cite">https://wals.info/chapter/99</span></li>
+                <li>Cooreman, Ann. 1987. <em>Transitivity and discourse continuity in Chamorro narratives</em>. Berlin: Mouton de Gruyter.</li>
+                <li>Cooreman, Ann. 1988. Ergativity in Chamorro. In Richard McGinn (ed.), <em>Studies in Austronesian linguistics</em>, 243–268. Athens: Ohio University Center for International Studies.</li>
+                <li>Costenoble, Hermann. 1940. <em>Die Chamoro Sprache</em> [The Chamorro language]. The Hague: Martinus Nijhoff.</li>
+                <li>Deal, Amy Rose &amp; Vera Hohaus. 2019. Vague predicates, crisp judgements. <em>Proceedings of Sinn und Bedeutung</em> 23. 347–364.</li>
+                <li>DeLancey, Scott. 1981. An interpretation of split ergativity and related patterns. <em>Language</em> 57(3). 626–657.</li>
+                <li>Dixon, Robert M. W. 2008. Comparative constructions: A cross-linguistic typology. <em>Studies in Language</em> 32(4). 787–817.</li>
+                <li>Dryer, Matthew S. &amp; Martin Haspelmath (eds.). 2013. <em>The world atlas of language structures online</em>. Leipzig: Max Planck Institute for Evolutionary Anthropology. <span class="cite">https://wals.info/languoid/lect/wals_code_cha</span></li>
+                <li>Ethnologue. 2024. Chamorro. <em>Ethnologue: Languages of the World</em>. Dallas: SIL International. <span class="cite">https://www.ethnologue.com/language/cha</span></li>
+                <li>Greenberg, Joseph H. 1963. Some universals of grammar with particular reference to the order of meaningful elements. In Joseph H. Greenberg (ed.), <em>Universals of language</em>, 73–113. Cambridge, MA: MIT Press.</li>
+                <li>Haiman, John. 1983. Iconic and economic motivation. <em>Language</em> 59(4). 781–819.</li>
+                <li>Hammarström, Harald, Robert Forkel, Martin Haspelmath &amp; Sebastian Bank. 2024. <em>Glottolog 5.2</em>. Leipzig: Max Planck Institute for Evolutionary Anthropology. <span class="cite">https://glottolog.org</span></li>
+                <li>Haspelmath, Martin. 2008. Frequency vs. iconicity in explaining grammatical asymmetries. <em>Cognitive Linguistics</em> 19(1). 1–33.</li>
+                <li>Haspelmath, Martin. 2017. Explaining alienability contrasts in adpossessive constructions: Predictability vs. iconicity. <em>Zeitschrift für Sprachwissenschaft</em> 36(2). 197–231.</li>
+                <li>Karvovskaya, Lena. 2018. <em>The typology and formal semantics of adnominal possession</em>. Leiden: Universiteit Leiden PhD thesis.</li>
+                <li>Nichols, Johanna. 1986. Head-marking and dependent-marking grammar. <em>Language</em> 62(1). 56–119.</li>
+                <li>Nichols, Johanna. 1988. On alienable and inalienable possession. In William Shipley (ed.), <em>In honor of Mary Haas: From the Haas Festival Conference on Native American Linguistics</em>, 557–609. Berlin: Mouton de Gruyter.</li>
+                <li>Nichols, Johanna. 1992. <em>Linguistic diversity in space and time</em>. Chicago: University of Chicago Press.</li>
+                <li>Nichols, Johanna &amp; Balthasar Bickel. 2013. Locus of marking: Whole-language typology. In Matthew S. Dryer &amp; Martin Haspelmath (eds.), <em>The world atlas of language structures online</em>. Leipzig: Max Planck Institute for Evolutionary Anthropology. <span class="cite">https://wals.info/chapter/25</span></li>
+                <li>Payne, Thomas E. 1997. <em>Describing morphosyntax: A guide for field linguists</em>. Cambridge: Cambridge University Press.</li>
+                <li>Reid, Lawrence A. 2002. Morphosyntactic evidence for the position of Chamorro in the Austronesian language family. In Robert S. Bauer (ed.), <em>Collected papers on southeast Asian and Pacific languages</em>, 63–94. Canberra: Pacific Linguistics.</li>
+                <li>Rodríguez-Ponga, Rafael. 1995. <em>El elemento español en la lengua chamorra</em> [The Spanish element in the Chamorro language]. Madrid: Universidad Complutense de Madrid PhD thesis.</li>
+                <li>Safford, William E. 1903–1905. The Chamorro language of Guam. <em>American Anthropologist</em> 5(2). 289–311; 5(3). 508–529; 5(4). 684–702; 6(1). 95–117; 7(2). 305–319.</li>
+                <li>Siewierska, Anna. 2013. Alignment of verbal person marking. In Matthew S. Dryer &amp; Martin Haspelmath (eds.), <em>The world atlas of language structures online</em>. Leipzig: Max Planck Institute for Evolutionary Anthropology. <span class="cite">https://wals.info/chapter/100</span> (15 May 2026).</li>
+                <li>Solenberger, Robert R. 1962. The social meaning of language choice in the Marianas. <em>Anthropological Linguistics</em> 4(1). 59–64.</li>
+                <li>Song, Jae Jung. 2018. <em>Linguistic Typology</em>. Oxford: Oxford University Press.</li>
+                <li>Starosta, Stanley &amp; Lisa Pagotto. 1991. Chamorro and the Austronesian connection. Paper presented at the Sixth International Conference on Austronesian Linguistics, Honolulu.</li>
+                <li>Stassen, Leon. 2013. Comparative constructions. In Matthew S. Dryer &amp; Martin Haspelmath (eds.), <em>The world atlas of language structures online</em>. Leipzig: Max Planck Institute for Evolutionary Anthropology. <span class="cite">https://wals.info/chapter/121</span> (15 May 2026).</li>
+                <li>Stolz, Christel &amp; Thomas Stolz. 2001. Hispanicised comparative constructions in indigenous languages of Austronesia and the Americas. In Thomas Stolz &amp; Klaus Zimmermann (eds.), <em>Lo propio y lo ajeno en las lenguas austronésicas y amerindias</em>, 35–56. Frankfurt: Vervuert.</li>
+                <li>Topping, Donald M. 1973. <em>Chamorro reference grammar</em>. Honolulu: University of Hawaii Press.</li>
+                <li>Topping, Donald M., Pedro M. Ogo &amp; Bernadita C. Dungca. 1975. <em>Chamorro–English dictionary</em>. Honolulu: University of Hawaii Press.</li>
+                <li>Zobel, Erik. 2002. The position of Chamorro and Palauan in the Austronesian family tree: Evidence from verb morphosyntax. In Fay Wouk &amp; Malcolm Ross (eds.), <em>The history and typology of western Austronesian voice systems</em>, 405–434. Canberra: Pacific Linguistics.</li>
+            </ol>
+        </section>
+
+    </div>
+</main>
+
+
+<script>
+(function () {
+    'use strict';
+
+    /* Theme toggle */
+    const themeBtn = document.getElementById('themeBtn');
+    const themeIcon = document.getElementById('themeIcon');
+    const SUN = '<circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/><line x1="4.2" y1="4.2" x2="6.3" y2="6.3"/><line x1="17.7" y1="17.7" x2="19.8" y2="19.8"/><line x1="4.2" y1="19.8" x2="6.3" y2="17.7"/><line x1="17.7" y1="6.3" x2="19.8" y2="4.2"/>';
+    const MOON = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+    themeBtn.addEventListener('click', () => {
+        const isDark = document.body.dataset.theme === 'dark';
+        document.body.dataset.theme = isDark ? 'light' : 'dark';
+        themeIcon.innerHTML = isDark ? MOON : SUN;
+    });
+
+    /* Mobile nav */
+    const menuBtn = document.getElementById('menuBtn');
+    const leftDeck = document.getElementById('leftDeck');
+    menuBtn.addEventListener('click', () => leftDeck.classList.toggle('open'));
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', () => leftDeck.classList.remove('open'));
+    });
+
+    /* Active section tracking */
+    const sections = document.querySelectorAll('.section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const linkMap = new Map();
+    navLinks.forEach(link => linkMap.set(link.getAttribute('href').slice(1), link));
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                navLinks.forEach(l => l.classList.remove('active'));
+                const active = linkMap.get(entry.target.id);
+                if (active) active.classList.add('active');
+            }
+        });
+    }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
+    sections.forEach(s => observer.observe(s));
+
+    /* Latte Axis progress */
+    const stone = document.getElementById('latteStone');
+    const updateStone = () => {
+        const doc = document.documentElement;
+        const total = doc.scrollHeight - doc.clientHeight;
+        const progress = total > 0 ? Math.min(window.scrollY / total, 1) : 0;
+        if (stone) stone.style.top = (progress * window.innerHeight) + 'px';
+    };
+    window.addEventListener('scroll', updateStone, { passive: true });
+    window.addEventListener('resize', updateStone);
+    updateStone();
+
+    /* Copy interlinear */
+    document.querySelectorAll('[data-copy-btn]').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+            const block = e.currentTarget.closest('[data-copy]');
+            if (!block) return;
+            const text = block.dataset.copy;
+            try {
+                await navigator.clipboard.writeText(text);
+            } catch (err) {
+                const ta = document.createElement('textarea');
+                ta.value = text; document.body.appendChild(ta);
+                ta.select();
+                try { document.execCommand('copy'); } catch (_) {}
+                document.body.removeChild(ta);
+            }
+            btn.classList.add('copied');
+            const txt = btn.childNodes[btn.childNodes.length - 1];
+            const saved = txt.textContent;
+            txt.textContent = ' Copied';
+            setTimeout(() => { btn.classList.remove('copied'); txt.textContent = saved; }, 1400);
+        });
+    });
+
+    /* Morpheme-sync hover */
+    document.querySelectorAll('.interlinear .morph').forEach(m => {
+        m.addEventListener('mouseenter', () => {
+            const pair = m.dataset.pair;
+            if (!pair) return;
+            const t = m.parentElement.querySelector('.gl[data-pair="' + pair + '"]');
+            if (t) t.classList.add('synced');
+        });
+        m.addEventListener('mouseleave', () => {
+            const pair = m.dataset.pair;
+            if (!pair) return;
+            const t = m.parentElement.querySelector('.gl[data-pair="' + pair + '"]');
+            if (t) t.classList.remove('synced');
+        });
+    });
+    document.querySelectorAll('.interlinear .gl').forEach(g => {
+        g.addEventListener('mouseenter', () => g.classList.add('synced'));
+        g.addEventListener('mouseleave', () => g.classList.remove('synced'));
+    });
+
+    /* Accordion toggles */
+    document.querySelectorAll('.tree-toggle').forEach(toggle => {
+        toggle.addEventListener('click', () => {
+            const expanded = toggle.getAttribute('aria-expanded') === 'true';
+            toggle.setAttribute('aria-expanded', String(!expanded));
+            const body = toggle.nextElementSibling;
+            body.style.maxHeight = expanded ? '0' : body.scrollHeight + 'px';
+        });
+    });
+
+    /* Coordinate ticker */
+    const cs1 = document.getElementById('coordSec');
+    const cs2 = document.getElementById('coordSec2');
+    let t = 0;
+    setInterval(() => {
+        t += 0.1;
+        if (cs1) cs1.textContent = (53.4 + Math.sin(t) * 0.3).toFixed(1);
+        if (cs2) cs2.textContent = (37.6 + Math.cos(t * 0.7) * 0.3).toFixed(1);
+    }, 1200);
+})();
+</script>
+
+</body>
+</html>
